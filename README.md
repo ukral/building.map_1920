@@ -1,11 +1,9 @@
----
-title: "building.map_1920"
-author: "Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)"
----
+# "building.map_1920"
+Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)"
+
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3715200.svg)](https://doi.org/10.5281/zenodo.3715200)
 
-\
 
 **This GitHub repository refers** to the Zenodo repository [Map of Viennese building stock and its age in the 1920s](https://www.doi.org/10.5281/zenodo.3715200). It is noted that the access to the Zenodo repository is currently restricted, because a corresponding Data Descriptor is currently under review at [Nature Scientific Data](https://www.nature.com/sdata/). Once the Data Descriptor is published, there will be an open access and the following files can be used and re-used.
 
