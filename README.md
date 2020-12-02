@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # building.map_1920
+=======
+# "building.map_1920"
+>>>>>>> 53c599c3626a6af2e07604a9e79b68bb2a5d2ec3
 Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)
 
 
