@@ -20,12 +20,12 @@ Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Rei
 
 3. **Background data**.
 
-**Instruction to execute the R-Codes**
+**Instruction to execute the R Markdown files**
 
 1. Download [R](https://www.r-project.org/) and install it on  your desktop.
 2. Download [R-Studio](https://rstudio.com/) and install in on your desktop.
 3. Download the [Zenodo data repository](https://www.doi.org/10.5281/zenodo.3715200), unpack the files and save them to a local directory on your desktop (e.g. C:/building_map/zenodo/).
-4. Download the GitHub repository and save it to a local directory on your desktop (e.g. C:/building_map/github/). Alternatively, you can connect R Studio to GitHub ([instructions](https://happygitwithr.com/rstudio-git-github.html)).
+4. Download the GitHub repository and save the files to a local directory on your desktop (e.g. C:/building_map/github/). Alternatively, you can connect R Studio to GitHub ([instructions](https://happygitwithr.com/rstudio-git-github.html)).
 5. Open R-Studio and load the R project file "building.map_1920.Rproj" from from your local directory (e.g. C:/building_map/github/).
 6. Specify the path name of your local directory in the R Markdown files "Codebook.Rmd" and "Usage_code.Rmd". This is needed to import the data sets from the Zenodo and Github repository.
 7. Execute the R Markdown files in R-Studio.
