@@ -67,7 +67,7 @@ UDB_1920 <- st_read(paste(dir, "Datasets/Urban district boundaries 1920/UDB_1920
 
 SABAM_1920 <- st_read(paste(dir, "Datasets/Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
 
-DD_T_10 <- read_xlsx(paste(dir, "Background data/Tables.xlsx", sep = ""), sheet = "DD_T_10", col_names =  TRUE, range = "A3:C33")
+DD_T_10 <- read_xlsx(paste(dir, "Background data/Tables.xlsx", sep = ""), sheet = "DD_T_10", col_names =  TRUE, range = "A3:C31")
 
 CB_CB_1920_AT <- read_xlsx(paste(dir, "Background data/Tables.xlsx", sep = ""), sheet = "CB_CB_1920_AT", col_names =  TRUE, range = "A3:B5")
 
@@ -340,26 +340,10 @@ Addresses under review (see “Address_reviewed”) were revised based on the ad
 
 The field covers `r length(unique(dataset_final$Address_revised))` unique records.
 
-### Address_identical
-This data field includes only addresses that can be found in "Address.2019" and "Address_revised". Practically speaking, this addresses were present in 1920 and 2019.
-
-The field covers `r length(unique(dataset_final$Address_identical))` unique records.
-
-### Address_rejected
-This data field includes only addresses that can be found in "Address.2019" but not in "Address_revised". Practically speaking, this addresses were present in 2019, but not in 1920.
-
-The field covers `r length(unique(dataset_final$Address_rejected))` unique records.
-
-### Address_added
-This data field includes only addresses that can be found in "Address_revised" but not in "Address.2019". Practically speaking, this addresses present in 1920, but not in 2019.
-
-The field covers `r length(unique(dataset_final$Address_added))` unique records.
-
-
 ### Location.usm
 The analog urban sprawl map [Die räumliche Ausdehnung Wien von 1857 bis 1957](https://catalogplus.tuwien.at/permalink/f/8j3js/UTW_alma2158906410003336) documents the built-up area in 1918. This field specifies if the polygon-feature is located within the built-up area 1918. The field covers the following unique records: `r unique(dataset_final$Location.usm)`.
 
-### Location.lum
+### Location.lsm
 The land use map documents the built up area 1912. The map is available in SHP format and can be retrieved from [S. Hohensinner](https://orcid.org/0000-0002-3517-0259) based on personal request. This field specifies if the polygon-feature is located within the built-up area 1918. The field covers the following unique records: `r unique(dataset_final$Location.lum)`.
 
 ### Presence.conf
