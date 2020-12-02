@@ -433,10 +433,12 @@ summary {
 <p><strong>Instruction to execute the R-Codes</strong></p>
 <ol style="list-style-type: decimal">
 <li>Download <a href="https://www.r-project.org/">R</a> and install it on your desktop.</li>
-<li>Download <a href="https://rstudio.com/">R-Studio</a> and install in on your desktop [optional].</li>
-<li>Download the <a href="https://www.doi.org/10.5281/zenodo.3715200">Zenodo data repository</a>, unpack the files and save them to a local directory on your desktop.</li>
-<li>Download the GitHub repository and save it to a local directory or</li>
-<li>Open R-Studio and load the R project file <a href="building.map_1920.Rproj">building.map_1920.Rproj</a> from your local directory.</li>
+<li>Download <a href="https://rstudio.com/">R-Studio</a> and install in on your desktop.</li>
+<li>Download the <a href="https://www.doi.org/10.5281/zenodo.3715200">Zenodo data repository</a>, unpack the files and save them to a local directory on your desktop (e.g. “C:/building_map/github/”).</li>
+<li>Download the GitHub repository and save it to a local directory on your desktop (e.g. “C:/building_map/zenodo/”). Alternatively, you can connect R Studio to GitHub ( <a href="https://happygitwithr.com/rstudio-git-github.html">instructions</a>.</li>
+<li>Open R-Studio and load the R project file “building.map_1920.Rproj” from from your local directory (e.g. “C:/building_map/github/”).</li>
+<li>Specify the path name of your local directory in the R Markdown files “Codebook.Rmd” and “Usage_code.Rmd”. This is needed to import the data sets from the Zenodo and Github repository.</li>
+<li>Execute the R Markdown files in R-Studio.</li>
 </ol>
 </div>
 
