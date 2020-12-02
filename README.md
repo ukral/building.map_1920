@@ -1,5 +1,5 @@
 # "building.map_1920"
-Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)"
+Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)
 
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3715200.svg)](https://doi.org/10.5281/zenodo.3715200)
