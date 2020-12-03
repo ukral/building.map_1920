@@ -18,9 +18,9 @@ Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Rei
 
 1. **Codebook**. The Codebook specifies the data format of the aforementioned 4 files, the fields of the attribute tables and comments on the fields to facilitate data usage and interpretation. The Codebook also includes an interactive map with the location and geographical scope of the study area. The Codebook is available in a [readable online version](https://rpubs.com/ukral/699029) for end-users as well as [R-Code](Codebook.Rmd) for those who want to use and re-use the Codebook.
 
-2. **Usage code**.The usage code 
+2. **Usage code**.The usage code supplements the aforementioned Data Descriptor and enables the reproduction of figures and data.
 
-3. **Background data**.
+3. **Background data**. The file [Background_data.xlsx](Background_data.xlsx) is a compilation of tables and datasets from various sources. The sheet "Content page" provides and overview, descriptions and references for the included data
 
 **Instruction to execute the R Markdown files**
 
