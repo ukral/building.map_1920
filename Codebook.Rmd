@@ -38,48 +38,53 @@ rm(list=ls())
 # Data input
 
 #####################################################################################
-# set directory
-dir = "C:/Users/u.kral/ownCloud/03_TU Wien/Zenodo/"
+# specify local directory that includes the files from the Zenodo repository https://www.doi.org/10.5281/zenodo.3715200 
+
+dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/Zenodo/"
+######################################################################################
+
+#####################################################################################
+# specify local directory that includes the files from the GitHub repository https://github.com/ukral/building.map_1920
+
+dir_github = "C:/Users/u.kral/ownCloud/03_TU Wien/Github/building.map_1920/"
 ######################################################################################
 
 
-BSM_1920 <- st_read("C:/Users/u.kral/ownCloud/03_TU Wien/Zenodo/Datasets/Building stock and age 1920/BSM_1920.shp", quiet = T)
 
-
-
+BSM_1920 <- st_read(paste(dir_zenodo, "Datasets/Building stock and age 1920/BSM_1920.shp", sep = ""), quiet = T)
 
 # Import dataset
-dataset_final <- read.csv(paste(dir, "Datasets/Building stock and age 1920/BSM_1920_attribute_table_final.csv", sep = ""), sep = ";")
+dataset_final <- read.csv(paste(dir_zenodo, "Datasets/Building stock and age 1920/BSM_1920_attribute_table_final.csv", sep = ""), sep = ";")
 
 # Import SHP file "City boundary 2020"
-CB_2020 <- st_read(paste(dir, "Background data/City boundary 2020/CB_2020.shp", sep = ""), quiet = T)
+CB_2020 <- st_read(paste(dir_zenodo, "Background data/City boundary 2020/CB_2020.shp", sep = ""), quiet = T)
 
 # Import SHP file "Areas out of scope 1920"
-AOOS_1920 <- st_read(paste(dir, "Background data/Areas out of scope 1920/AOOS_1920.shp", sep = ""), quiet = T)
+AOOS_1920 <- st_read(paste(dir_zenodo, "Background data/Areas out of scope 1920/AOOS_1920.shp", sep = ""), quiet = T)
 
 
 
 # Import SHP file "City boundary 1920"
-CB_1920 <- st_read(paste(dir, "Datasets/City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
+CB_1920 <- st_read(paste(dir_zenodo, "Datasets/City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
 
 # Import SHP file "Urban district boundaries 1920" 
-UDB_1920 <- st_read(paste(dir, "Datasets/Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
+UDB_1920 <- st_read(paste(dir_zenodo, "Datasets/Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
 
-SABAM_1920 <- st_read(paste(dir, "Datasets/Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
+SABAM_1920 <- st_read(paste(dir_zenodo, "Datasets/Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
 
-DD_T_10 <- read_xlsx(paste(dir, "Background data/Tables.xlsx", sep = ""), sheet = "DD_T_10", col_names =  TRUE, range = "A3:C31")
+DD_T_10 <- read_xlsx(paste(dir_zenodo, "Background data/Tables.xlsx", sep = ""), sheet = "DD_T_10", col_names =  TRUE, range = "A3:C31")
 
-CB_CB_1920_AT <- read_xlsx(paste(dir, "Background data/Tables.xlsx", sep = ""), sheet = "CB_CB_1920_AT", col_names =  TRUE, range = "A3:B5")
+CB_CB_1920_AT <- read_xlsx(paste(dir_zenodo, "Background data/Tables.xlsx", sep = ""), sheet = "CB_CB_1920_AT", col_names =  TRUE, range = "A3:B5")
 
-CB_UDB_1920_AT <- read_xlsx(paste(dir, "Background data/Tables.xlsx", sep = ""), sheet = "CB_UDB_1920_AT", col_names =  TRUE, range = "A3:B6")
+CB_UDB_1920_AT <- read_xlsx(paste(dir_zenodo, "Background data/Tables.xlsx", sep = ""), sheet = "CB_UDB_1920_AT", col_names =  TRUE, range = "A3:B6")
 
-CB_SABAM_1920_AT <- read_xlsx(paste(dir, "Background data/Tables.xlsx", sep = ""), sheet = "CB_SABAM_1920_AT", col_names =  TRUE, range = "A3:B5")
+CB_SABAM_1920_AT <- read_xlsx(paste(dir_zenodo, "Background data/Tables.xlsx", sep = ""), sheet = "CB_SABAM_1920_AT", col_names =  TRUE, range = "A3:B5")
 
 
 ```
 
 # Introduction {-}
-This codebook refers to the data repository [Map of Viennese building stock and its age in the 1920s](https://www.doi.org/10.5281/zenodo.3715200), which includes the following geospatial datasets.
+This Codebook refers to the data repository [Map of Viennese building stock and its age in the 1920s](https://www.doi.org/10.5281/zenodo.3715200), which includes the following geospatial datasets.
 
 1. City boundary 1920 (CB_1920)
 2. Urban district boundaries 1920 (UDB_1920)
@@ -260,7 +265,7 @@ The field identifies the data sources from which the building footprints were re
 
 ```{r nomenclatur, fig.align = 'center', out.width = "30%", fig.cap = "Nomenclatur for identifying historical cadastral map sheets.", echo=FALSE}
 
-knitr::include_graphics(here::here(paste(dir, "/Figures/Codebook_figure_FF.png", sep = "")))
+knitr::include_graphics(here::here(paste(dir_github, "/Figures/Codebook_figure_FF.png", sep = "")))
 ```
 
 
