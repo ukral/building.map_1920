@@ -17,7 +17,6 @@ div#TOC li {
 }
 </style>
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -30,18 +29,12 @@ library(readxl)
 library(mapview)
 library(ggplot2)
 
-tmap_mode("view")
-
 rm(list=ls()) 
+tmap_mode("view")
+```
 
 
-# Data input
-
-#####################################################################################
-# specify local directory that includes the files from the Zenodo repository https://www.doi.org/10.5281/zenodo.3715200 
-
-dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/02_Zenodo/"
-######################################################################################
+```{r specify_inputs, echo = FALSE}
 
 #####################################################################################
 # specify local directory that includes the files from the GitHub repository https://github.com/ukral/building.map_1920
@@ -49,28 +42,26 @@ dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/02_Zenodo/"
 dir_github = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/01_Github/"
 ######################################################################################
 
+#####################################################################################
+# specify local directory that includes the files from the Zenodo repository https://www.doi.org/10.5281/zenodo.3715200 
 
+dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/02_Zenodo/"
+######################################################################################
 
 BSM_1920 <- st_read(paste(dir_zenodo, "Building stock and age 1920/BSM_1920.shp", sep = ""), quiet = T)
 
-# Import dataset
 dataset_final <- read.csv(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table_final.csv", sep = ""), sep = ";")
 
-# Import SHP file "City boundary 2020"
 CB_2020 <- st_read(paste(dir_zenodo, "City boundary 2020/CB_2020.shp", sep = ""), quiet = T)
 
-# Import SHP file "Areas out of scope 1920"
 AOOS_1920 <- st_read(paste(dir_zenodo, "Areas out of scope 1920/AOOS_1920.shp", sep = ""), quiet = T)
 
+CB_1920 <-   st_read(paste(dir_zenodo, "City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
 
-
-# Import SHP file "City boundary 1920"
-CB_1920 <- st_read(paste(dir_zenodo, "City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
-
-# Import SHP file "Urban district boundaries 1920" 
 UDB_1920 <- st_read(paste(dir_zenodo, "Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
 
 SABAM_1920 <- st_read(paste(dir_zenodo, "Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
+
 
 DD_T_10 <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "DD_T_10", col_names =  TRUE, range = "A3:C31")
 
@@ -83,15 +74,20 @@ CB_SABAM_1920_AT <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""
 
 ```
 
-# Introduction {-}
-This Codebook refers to the data repository [Map of Viennese building stock and its age in the 1920s](https://www.doi.org/10.5281/zenodo.3715200), which includes the following geospatial datasets.
 
-1. City boundary 1920 (CB_1920)
-2. Urban district boundaries 1920 (UDB_1920)
-3. Scope of analog building age map 1920 (SABAM_1920)
-4. Building stock and age 1920 (BSM_1920) and its attribute table (BSM_1920_attribute_table_final)
+# Preface {-}
+This Codebook corresponds with a Data Descriptor, which is currently under review at [Nature Scientific Data](https://www.nature.com/sdata/). Once the Data Descriptor is accepted for publishing, the corresponding datasets will be accessible and can be used and re-used.
 
-This codebook specifies the data format, the attribute tables and comments on their fields. This codebook is for users who want to reuse and interpret the data records.
+# Indroduction {-}
+**This Codebook**
+
+* **is part** of the GitHub repository [building.map_1920](https://github.com/ukral/building.map_1920). Check out the [readme file](https://github.com/ukral/building.map_1920/blob/main/README.md) to learn more about the corresponding datasets and how to use and re-use the underlying R Markdown file.
+
+* **specifies** the formats of the datasets and the data fields in the attribute tables of the datasets.
+
+* **is for users** of the datasets who want to use and re-use the datasets.
+
+
 
 **Location and geographical coverage**
 
@@ -140,12 +136,7 @@ ggplot() +
 This Codebook chapter refers to the geospatial dataset "City boundary 1920", briefly called CB_1920. The dataset includes `r nrow(CB_1920)` polygon-feature.
 
 ## Attribute table
-The dataset includes `r ncol(st_drop_geometry(CB_1920))` data fields.
-
-```{r, echo=FALSE}
-kable(head(CB_CB_1920_AT, nrow(CB_CB_1920_AT)))
-
-```
+The dataset includes `r ncol(st_drop_geometry(CB_1920))` data fields. `r kable(head(CB_CB_1920_AT, nrow(CB_CB_1920_AT)))`
 
 ## Comments
 ### ID
@@ -159,11 +150,7 @@ This field specifies the city area in squared meter in 1920.
 This Codebook chapter refers to the geospatial dataset "City boundary 1920", briefly called UDB_1920. The dataset includes `r nrow(UDB_1920)` polygon-features, one for each urban district.
 
 ## Attribute table
-The dataset includes `r ncol(st_drop_geometry(UDB_1920))` data fields.
-
-```{r, echo=FALSE}
-kable(head(CB_UDB_1920_AT, nrow(CB_UDB_1920_AT)))
-```
+The dataset includes `r ncol(st_drop_geometry(UDB_1920))` data fields. `r kable(head(CB_UDB_1920_AT, nrow(CB_UDB_1920_AT)))`
 
 ## Comments
 ### ID
@@ -183,12 +170,7 @@ This Codebook chapter refers to the geospatial dataset "Scope of analog building
 The dataset includes `r nrow(SABAM_1920)` polygon-feature.
 
 ## Attribute table
-The dataset includes `r ncol(st_drop_geometry(SABAM_1920))` data fields.
-
-```{r, echo=FALSE}
-kable(head(CB_SABAM_1920_AT, nrow(CB_SABAM_1920_AT)))
-
-```
+The dataset includes `r ncol(st_drop_geometry(SABAM_1920))` data fields. `r kable(head(CB_SABAM_1920_AT, nrow(CB_SABAM_1920_AT)))`
 
 ## Comments
 ### ID
@@ -213,13 +195,7 @@ The `r nrow(dataset_final)` polygon-features are visualized in Figure \@ref(fig:
 
 
 ##	Attribute table
-The dataset includes `r nrow(DD_T_10)` data fields.
-
-```{r, echo=FALSE}
-kable(head(DD_T_10[,1:2], nrow(DD_T_10)))
-
-```
-
+The dataset includes `r nrow(DD_T_10)` data fields. `r kable(head(DD_T_10[,1:2], nrow(DD_T_10)))` 
 
 ## Comments
 This section comments on the individual data fields by giving background information and details for using the data.
@@ -265,7 +241,7 @@ The field identifies the data sources from which the building footprints were re
 
 ```{r nomenclatur, fig.align = 'center', out.width = "30%", fig.cap = "Nomenclatur for identifying historical cadastral map sheets.", echo=FALSE}
 
-knitr::include_graphics(here::here(paste(dir_github, "/Figures/Codebook_figure_FF.png", sep = "")))
+include_graphics(paste(dir_github, "Figures/Codebook_figure_FF.png", sep = ""))
 ```
 
 
@@ -371,6 +347,5 @@ This research received funding from the [Austrian Science Fund (FWF)](https://ww
 
 # Competing interests {-}
 The authors declare no competing interests.
-
 
 

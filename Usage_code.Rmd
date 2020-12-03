@@ -1,5 +1,5 @@
 ---
-title: "Usage code for data descriptor"
+title: "Usage code"
 author: "Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)"
 
 output:
@@ -16,20 +16,17 @@ div#TOC li {
 }
 </style>
 
-
-
-
 # Preface {-}
-This R Markdown file is part of the data repository [Map of Viennese building stock and its age in the 1920s (Dataset and Codebook)](https://doi.org/10.5281/zenodo.3715200). This R Markdown is a usage code related to a Data Descriptor, which was submitted to Nature Scientific Data. The heading structure of this R Markdown file corresponds with the Data Descriptor.
+This usage code corresponds with a Data Descriptor, which is currently under review at [Nature Scientific Data](https://www.nature.com/sdata/). Once the Data Descriptor is accepted for publishing, the corresponding datasets will be accessible and can be used and re-used.
 
-To execute the R-Code requires the following:
+# Indroduction {-}
+**This usage code**
 
-1. Download and save the data repository from Zenodo on the local computer. The data respository includes all input datasets, which are needed to execute the R-Code.
-2. Set the local directory name in [this code chunk](#data_input).
+* **is part** of the GitHub repository [building.map_1920](https://github.com/ukral/building.map_1920). Check out the [readme file](https://github.com/ukral/building.map_1920/blob/main/README.md) to learn more about the corresponding datasets and how to use and re-use the underlying R Markdown file.
 
-The R Markdown file can be fed to [bookdown](https://bookdown.org/) to generate a readable HTML file.
+* **supplements** the aforementioned Data Descriptor and enables the reproduction of figures and data. 
 
-
+* **is for users** of the datasets who want to use and re-use the datasets.
 
 
 ```{r setup, include=FALSE}
@@ -68,81 +65,68 @@ library(qwraps2)
 
 options(dplyr.summarise.inform = FALSE)
 
+rm(list=ls()) 
+
 ```
 
 
-```{r, data_input, echo = FALSE}
-
-# This chunk imports external datasets.
-
-rm(list=ls()) 
+```{r specify_inputs, echo = FALSE}
 
 #####################################################################################
+
 # specify local directory that includes the files from the Zenodo repository https://www.doi.org/10.5281/zenodo.3715200 
-
 dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/02_Zenodo/"
-######################################################################################
 
 #####################################################################################
+
 # specify local directory that includes the files from the GitHub repository https://github.com/ukral/building.map_1920
 
 dir_github = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/01_Github/"
 
 #####################################################################################
+
 # specify local directory that covers the output files
 
 dir_output = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/03_Output/"
+
 ######################################################################################
 
 
 
 
-################
-# datasets
-################
+# Importing datasets from dir_zenodo
 
-# Import CSV file "BSM_1920_attribute_table_temporary", which is the attribute table with primary data fields
 wien1920 <- read.table(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table_temporary.csv", sep = ""), sep = ";", stringsAsFactors = F)
 wien1920$Area.ha <- wien1920$Area*10^-4
 
-# Import SHP file "City boundary 1920"
 CB_1920 <- st_read(paste(dir_zenodo, "City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
 
-# Import SHP file "Urban district boundaries 1920" 
 UDB_1920 <- st_read(paste(dir_zenodo, "Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
 
 SABAM_1920 <- st_read(paste(dir_zenodo, "Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
 
 ################
-# Background data
+# Importing datasets from dir_github
 ################
 
-# Import Online-only Table 2. Retrieved from Data Descriptor.
-DD_OOT_2 <- read_xlsx(paste(dir_github, "Background data/Tables.xlsx", sep = ""), sheet = "DD_OOT_2", col_names =  TRUE, range = "A3:C31")
+DD_OOT_2 <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "DD_OOT_2", col_names =  TRUE, range = "A3:C31")
 
-# Import statistic on built-up area in 1912.
-BUA_1912_statistic_raw <- read_xlsx(paste(dir_github, "Background data/Tables.xlsx", sep = ""), sheet = "BUA_1912_statistic", col_names =  TRUE, range = "A3:K15")
+BUA_1912_statistic_raw <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "BUA_1912_statistic", col_names =  TRUE, range = "A3:K15")
+
 BUA_1912_statistic <- BUA_1912_statistic_raw[,c("Zeitschnitt","gesamt")]
 colnames(BUA_1912_statistic) <- c("year", "Area")
 
-# Import statistic on urban district areas 1920.
-UD_AREA_1920_statistic <- read_xlsx(paste(dir_github, "Background data/Tables.xlsx", sep = ""), sheet = "UD_AREA_1920_statistic", col_names =  TRUE, range = "A3:B24")
+UD_AREA_1920_statistic <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "UD_AREA_1920_statistic", col_names =  TRUE, range = "A3:B24")
 
-# Import statistic on building counts. 
-BC_statistic <- read_xlsx(paste(dir_github, "Background data/Tables.xlsx", sep = ""), sheet = "BC_statistic", col_names =  TRUE, col_types = rep("numeric", times = 6), range = "A3:F24")
+BC_statistic <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "BC_statistic", col_names =  TRUE, col_types = rep("numeric", times = 6), range = "A3:F24")
 
-# Import timeseries data on building counts.
-BC_TL <- read_xlsx(paste(dir_github, "Background data/Tables.xlsx", sep = ""), sheet = "BC_TL", col_names = T, range = "A3:B25")
+BC_TL <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "BC_TL", col_names = T, range = "A3:B25")
 colnames(BC_TL) <- c("year", "buildings")
 
-# Import timeseries data inhabitants.
-INHAB_TL <- read_xlsx(paste(dir_github, "Background data/Tables.xlsx", sep = ""), sheet =  "INHAB_TL", col_names = TRUE, range = "A3:B28" )
+INHAB_TL <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet =  "INHAB_TL", col_names = TRUE, range = "A3:B28" )
 colnames(INHAB_TL) <- c("year", "Inhabitants")
 
-# Import building schematic 
-BS_1920s <- read_xlsx(paste(dir_github, "Background data/Tables.xlsx", sep = ""), sheet =  "BS_1920s", col_names = TRUE, range = "A1:L42862" )
-
-
+BS_1920s <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet =  "BS_1920s", col_names = TRUE, range = "A1:L42862" )
 
 ```
 # Background and summary
@@ -159,7 +143,7 @@ data <- merge(data, BUA_1912_statistic[,],by.x = "year", by.y = "year", all = TR
 
 data <- data[which(data$year>=1700),] # ab 1700 darstellen
 
-# Transparente Farben: https://www.dataanalytics.org.uk/make-transparent-colors-in-r/ 
+# Transparent colours. Code retrieve from https://www.dataanalytics.org.uk/make-transparent-colors-in-r/ 
 t_col <- function(color, percent = 50, name = NULL) {
   #      color = color name
   #    percent = % transparency
@@ -184,135 +168,43 @@ mycol2 <- t_col("darkblue", perc = 60, name = "lt.blue")
 mycol3 <- t_col("grey", perc = 80, name = "lt.grey")
 
 
+```
 
-
-##############
-#### Plot ####
-##############
-
-
-pdf(paste(dir_output, "Figure 01a.pdf", sep = ""), width = 600/60, height = 350/60)
-par(mar=c(5,5,3,5))
-
-plot(data[,1], data[,3], type = "p", pch = 19, xlab="", ylab = "", cex=1.5,las=1, ylim = c(0,200000)) # Häuser
-par(new=T, xaxt="n")
-plot(data[,1], data[,4]*100, col=2, pch = 19, ylab="", xlab="year",cex=1.5, yaxt="n", ylim = c(0,20000)) # Siedlungsfläche in ha
-axis(4, pretty(0:20000), col.axis=2, las=1)
-
-legend("topleft", c("Buildings [Number of buildings]", "Settlement Area [hectares]"), col=c(1,2), pch = 19)
-
-dev.off()
-
-
-
-
-pdf(paste(dir_output, "Figure 01b.pdf", sep = ""), width = 600/60, height = 350/60)
-par(mar=c(5,5,3,5))
-
-plot(data[,1], data[,3], type = "p", pch = 19, xlab="year", ylab = "", cex=1.5,las=1, ylim = c(0,120),yaxt='n') # Häuser
-
-ok <- 10 # Oberkante vom untersten Balken
-hoehe <- 10 # Balkenhöhe
-ab <- 15  # Abstand OK Balken OK Balken
-
-fn <- 3 # font number
-
-# Darstellung von unten nach oben
-# Stadtkarten
-rect(1701, ok-hoehe, 1979, ok, col = mycol, border = mycol) 
-rect(1979, ok-hoehe, 2020, ok, col = mycol2, border = mycol2) 
-text(1701, ok + 3, "City maps", col = "black", pos = 4, font = fn)
-
-# Kataster
-rect(1817, ok+ab-hoehe, 1975, ok+ab, col = mycol, border = mycol)
-rect(1975, ok+ab-hoehe, 2020, ok+ab, col = mycol2, border = mycol2)
-text(1817, ok+ab + 3, "Cadaster", col = "black", pos = 4, font = fn)
-
-# Luftbilder
-rect(1938, ok+ab+ab-hoehe, 2012, ok+ab+ab, col = mycol, border = mycol) 
-rect(2012, ok+ab+ab-hoehe, 2020, ok+ab+ab, col = mycol2, border = mycol2) 
-text(1938, ok+ab+ab + 3, "Aerial photographs", col = "black", pos = 4, font = fn)
-
-# Building stock maps
-uk <- 60 # unterkante vom senkrechten balken
-text(1829, uk+hoehe + 3, "Historic building stock maps", col="black", pos = 4, font = fn)
-
-#1920 Stadkarte
-rect(1920, uk, 1921, uk+hoehe, col = mycol2, border = mycol2) 
-text(1921, uk + 3, "Building stock\nmap 1920", col = "darkblue", pos = 4)
-
-#1920 Franzeisischer Kataster 1829 https://www.wien.gv.at/kulturportal/public/grafik.aspx?bookmark=EeNvRma8KkZmpYFEvioURBwZ9D0-b&lang=de&bmadr=
-rect(1829, uk, 1830, uk+hoehe, col = mycol2, border = mycol2) 
-text(1829, uk + 3, "Franzeisischer\nKataster 1829", col = "darkblue", pos = 4)
-
-ab <- ab*1.5
-
-# Setttlemen Area maps
-
-text(1704, uk+ab+hoehe + 3, "Historic settlement area maps", col="black", pos = 4, font = fn)
-
-rect(1912, uk+ab, 1913, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1912, uk+ab + 3, "1912", col = "darkblue", pos = 4)
-
-rect(1875, uk+ab, 1876, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1875, uk+ab + 3, "1875", col = "darkblue", pos = 4)
-
-rect(1825, uk+ab, 1826, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1825, uk+ab + 3, "1825", col = "darkblue", pos = 4)
-
-rect(1780, uk+ab, 1781, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1780, uk+ab + 3, "1780", col = "darkblue", pos = 4)
-
-rect(1755, uk+ab, 1756, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1755, uk+ab + 3, "1755", col = "darkblue", pos = 4)
-
-rect(1704, uk+ab, 1705, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1704, uk+ab + 3, "1704", col = "darkblue", pos = 4)
-
-# Hintergrundblöcke
-rect(1700, 0, 2020, 50, col = mycol3, border = mycol3) 
-text(1700, 50-5, "Topographic documents", col = "black", pos = 4)
-
-rect(1700, 55, 2020, 105, col = mycol3, border = mycol3) 
-text(1700, 65, "Reconstruction and mapping\nof historical settlement data", col = "black", pos = 4)
-
-
-#Legende
-
-x = 1760
-y = 120
-
-rect(x, y-hoehe, x+30, y, col = mycol, border = mycol) 
-rect(x+30, y-hoehe, x+60, y, col = mycol2, border = mycol2)
-
-text(x+15, y, "analog", col = "black", pos = 1)
-text(x+45, y, "digital", col = "black", pos = 1)
-text(1700, 115, "Data format", col = "black", pos = 4)
-
-dev.off()
-
-
-
-
-
-#####################################################################################
+```{r, fig.width=9, fig.height=10, echo = FALSE}
 
 Figure_1 <- function(){
-  layout(matrix(c(1,2), 2), widths = 8, heights = c(4,5))
-  par(mar=c(5,5,3,5))
+  
+  layout(matrix(c(1,2), 2), heights = c(8,10))
+  par(mar=c(5,5,2,5))
+
   
 ####### Plot 1
-plot(data[,1], data[,3], type = "p", pch = 19, xlab="", ylab = "", cex=1.5,las=1, ylim = c(0,200000)) # Häuser
-par(new=T, xaxt="n")
-plot(data[,1], data[,4]*100, col=2, pch = 19, ylab="", xlab="year",cex=1.5, yaxt="n", ylim = c(0,20000)) # Siedlungsfläche in ha
+plot(data[,1], data[,3], type = "p", pch = 19, xlab="", ylab = "", cex=1.5,las=1, xlim = c(1700,2050), ylim = c(0,200000)) # Häuser
+title(main = "Building counts and settlement areas for the city of Vienna", adj = 0)
+par(new=T)
+plot(data[,1], data[,4]*100, col=2, pch = 19, ylab="", xlab="year",cex=1.5,  xlim = c(1700,2050), xaxt="n", yaxt="n", ylim = c(0,20000)) # Siedlungsfläche in ha
 axis(4, pretty(0:20000), col.axis=2, las=1)
 
 legend("topleft", c("Buildings [Number of buildings]", "Settlement Area [hectares]"), col=c(1,2), pch = 19)
 
-####### Plot 2
+par(xpd=NA)
+di <- dev.size("in")
+x <- grconvertX(c(0, di[1]), from="in", to="user")
+y <- grconvertY(c(0, di[2]), from="in", to="user")
+fig <- par("fig")
+x <- x[1] + (x[2] - x[1]) * fig[1:2]
+y <- y[1] + (y[2] - y[1]) * fig[3:4]
+txt <- "a"
+x <- x[1] + strwidth(txt, cex=3) / 2
+y <- y[2] - strheight(txt, cex=3) / 2
+text(x, y, txt, font = 2, cex=1.2)
 
-plot(data[,1], data[,3], type = "p", pch = 19, xlab="year", ylab = "", cex=1.5,las=1, ylim = c(0,120),yaxt='n') # Häuser
-par(new=T)
+####### Plot 2
+par(mar=c(5,5,2,5))
+dummy_data <- data.frame(seq(1700, 2050, by = 50), seq(0, 130, by = 130/7))
+plot(dummy_data, xlab="year", ylab = "", yaxt="n", col = "transparent")
+title(main = "Cartographic documents for the city of Vienna", adj = 0)
+
 ok <- 10 # Oberkante vom untersten Balken
 hoehe <- 10 # Balkenhöhe
 ab <- 15  # Abstand OK Balken OK Balken
@@ -321,73 +213,93 @@ fn <- 3 # font number
 
 # Darstellung von unten nach oben
 # Stadtkarten
-rect(1701, ok-hoehe, 1979, ok, col = mycol, border = mycol) 
-rect(1979, ok-hoehe, 2020, ok, col = mycol2, border = mycol2) 
-text(1701, ok + 3, "City maps", col = "black", pos = 4, font = fn)
+rect(1701, ok-hoehe, 1979, ok, col = mycol, border = mycol)
+rect(1979, ok-hoehe, 2020, ok, col = mycol2, border = mycol2)
+text(1701, ok + 5, "City maps", col = "black", pos = 4, font = fn)
 
 # Kataster
 rect(1817, ok+ab-hoehe, 1975, ok+ab, col = mycol, border = mycol)
 rect(1975, ok+ab-hoehe, 2020, ok+ab, col = mycol2, border = mycol2)
-text(1817, ok+ab + 3, "Cadaster", col = "black", pos = 4, font = fn)
+text(1817, ok+ab + 5, "Cadaster", col = "black", pos = 4, font = fn)
 
 # Luftbilder
-rect(1938, ok+ab+ab-hoehe, 2012, ok+ab+ab, col = mycol, border = mycol) 
-rect(2012, ok+ab+ab-hoehe, 2020, ok+ab+ab, col = mycol2, border = mycol2) 
-text(1938, ok+ab+ab + 3, "Aerial photographs", col = "black", pos = 4, font = fn)
+rect(1938, ok+ab+ab-hoehe, 2012, ok+ab+ab, col = mycol, border = mycol)
+rect(2012, ok+ab+ab-hoehe, 2020, ok+ab+ab, col = mycol2, border = mycol2)
+text(1938, ok+ab+ab + 5, "Aerial photographs", col = "black", pos = 4, font = fn)
 
 # Building stock maps
 uk <- 60 # unterkante vom senkrechten balken
-text(1829, uk+hoehe + 3, "Historic building stock maps", col="black", pos = 4, font = fn)
+text(1829, uk+hoehe + 5, "Historic building stock maps", col="black", pos = 4, font = fn)
 
 #1920 Stadkarte
-rect(1920, uk, 1921, uk+hoehe, col = mycol2, border = mycol2) 
-text(1921, uk + 3, "Building stock\nmap 1920", col = "darkblue", pos = 4)
+rect(1920, uk, 1921, uk+hoehe, col = mycol2, border = mycol2)
+text(1921, uk + 5, "Building stock\nmap 1920", col = "darkblue", pos = 4)
 
 #1920 Franzeisischer Kataster 1829 https://www.wien.gv.at/kulturportal/public/grafik.aspx?bookmark=EeNvRma8KkZmpYFEvioURBwZ9D0-b&lang=de&bmadr=
-rect(1829, uk, 1830, uk+hoehe, col = mycol2, border = mycol2) 
-text(1829, uk + 3, "Franzeisischer\nKataster 1829", col = "darkblue", pos = 4)
+rect(1829, uk, 1830, uk+hoehe, col = mycol2, border = mycol2)
+text(1829, uk + 5, "Franzeisischer\nKataster 1829", col = "darkblue", pos = 4)
 
 ab <- ab*1.5
 
 # Setttlemen Area maps
 
-text(1780, uk+ab+hoehe + 3, "Historic settlement Area maps", col="black", pos = 4, font = fn)
+text(1704, uk+ab+hoehe + 5, "Historic settlement area maps", col="black", pos = 4, font = fn)
 
-rect(1912, uk+ab, 1913, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1912, uk+ab + 3, "1912", col = "darkblue", pos = 4)
+rect(1912, uk+ab, 1913, uk+ab+hoehe, col = mycol2, border = mycol2)
+text(1912-2, uk+ab + 2, "1912", col = "darkblue", pos = 4)
 
-rect(1875, uk+ab, 1876, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1875, uk+ab + 3, "1875", col = "darkblue", pos = 4)
+rect(1875, uk+ab, 1876, uk+ab+hoehe, col = mycol2, border = mycol2)
+text(1875-2, uk+ab + 2, "1875", col = "darkblue", pos = 4)
 
-rect(1825, uk+ab, 1826, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1825, uk+ab + 3, "1825", col = "darkblue", pos = 4)
+rect(1825, uk+ab, 1826, uk+ab+hoehe, col = mycol2, border = mycol2)
+text(1825-2, uk+ab + 2, "1825", col = "darkblue", pos = 4)
 
-rect(1780, uk+ab, 1781, uk+ab+hoehe, col = mycol2, border = mycol2) 
-text(1780, uk+ab + 3, "1780", col = "darkblue", pos = 4)
+rect(1780, uk+ab, 1781, uk+ab+hoehe, col = mycol2, border = mycol2)
+text(1780-2, uk+ab + 2, "1780", col = "darkblue", pos = 4)
+
+rect(1755, uk+ab, 1756, uk+ab+hoehe, col = mycol2, border = mycol2)
+text(1755-2, uk+ab + 2, "1755", col = "darkblue", pos = 4)
+
+rect(1704, uk+ab, 1705, uk+ab+hoehe, col = mycol2, border = mycol2)
+text(1704-2, uk+ab + 2, "1704", col = "darkblue", pos = 4)
 
 # Hintergrundblöcke
-rect(1700, 0, 2020, 50, col = mycol3, border = mycol3) 
-text(1700, 50-5, "Topographic documents", col = "black", pos = 4)
+rect(1700, 0, 2050, 50, col = mycol3, border = mycol3)
+text(1700, 50-5, "Topographic documents", col = "grey25", pos = 4, font = 2)
 
-rect(1700, 55, 2020, 105, col = mycol3, border = mycol3) 
-text(1700, 105-15, "Reconstruction\nand mapping\nof historical\nsettlement data", col = "black", pos = 4)
+rect(1700, 55, 2050, 115, col = mycol3, border = mycol3)
+text(1700, 110, "Reconstruction and mapping of historical settlement data", col = "grey25", pos = 4, font = 2)
 
 
 #Legende
 
 x = 1760
-y = 120
+y = 130
 
-rect(x, y-hoehe, x+30, y, col = mycol, border = mycol) 
+rect(x, y-hoehe, x+30, y, col = mycol, border = mycol)
 rect(x+30, y-hoehe, x+60, y, col = mycol2, border = mycol2)
 
 text(x+15, y, "analog", col = "black", pos = 1)
 text(x+45, y, "digital", col = "black", pos = 1)
-text(1700, 115, "Data format", col = "black", pos = 4)
+text(1700, y-5, "Data format", col = "black", pos = 4)
+
+
+# figure labels. Code copied from https://www.r-bloggers.com/2017/03/adding-figure-labels-a-b-c-in-the-top-left-corner-of-the-plotting-region/
+
+par(xpd=NA)
+di <- dev.size("in")
+x <- grconvertX(c(0, di[1]), from="in", to="user")
+y <- grconvertY(c(0, di[2]), from="in", to="user")
+fig <- par("fig")
+x <- x[1] + (x[2] - x[1]) * fig[1:2]
+y <- y[1] + (y[2] - y[1]) * fig[3:4]
+txt <- "b"
+x <- x[1] + strwidth(txt, cex=3) / 2
+y <- y[2] - strheight(txt, cex=3) / 2
+text(x, y, txt, font = 2, cex=1.2)
 
 }
-pdf(paste(dir_output, "Test2.pdf", sep = ""), width = 10, height = 13)
-
+Figure_1()
 
 ```
 
@@ -1600,6 +1512,14 @@ write.table(wien1920[,DD_OOT_2$Data_field], file = paste(dir_output, "BSM_1920_a
 The figures are published in the corresponding Data Descriptor.
 
 ```{r, echo = FALSE}
+
+
+# Plot figure 01
+columns <- 1
+rows <- 2
+
+ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = columns * 9 , height = rows*5)
+ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = columns * 9 , height = rows*5)
 
 
 # Plot figure 07

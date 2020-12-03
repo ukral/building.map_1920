@@ -423,6 +423,8 @@ summary {
 <li>Urban district boundaries 1920 (UDB_1920.shp)</li>
 <li>Scope of analog building age map 1920 (SABAM_1920.shp)</li>
 <li>Building stock and age 1920 (BSM_1920.shp) and its attribute tables (BSM_1920_attribute_table_final.csv and BSM_1920_attribute_table_temporary.csv)</li>
+<li>City boundary 1920 (CB_2020.shp)</li>
+<li>Areas out of scope 1920 (AOOS_1920.shp)</li>
 </ol>
 <p><strong>This GitHub repository provides</strong> supplementary material as followed.</p>
 <ol style="list-style-type: decimal">
@@ -430,14 +432,15 @@ summary {
 <li><p><strong>Usage code</strong>.</p></li>
 <li><p><strong>Background data</strong>.</p></li>
 </ol>
-<p><strong>Instruction to execute the R-Codes</strong></p>
+<p><strong>Instruction to execute the R Markdown files</strong></p>
 <ol style="list-style-type: decimal">
 <li>Download <a href="https://www.r-project.org/">R</a> and install it on your desktop.</li>
 <li>Download <a href="https://rstudio.com/">R-Studio</a> and install in on your desktop.</li>
-<li>Download the <a href="https://www.doi.org/10.5281/zenodo.3715200">Zenodo data repository</a>, unpack the files and save them to a local directory on your desktop (e.g. “C:/building_map/github/”).</li>
-<li>Download the GitHub repository and save it to a local directory on your desktop (<em>e.g. C:/building_map/zenodo/</em>). Alternatively, you can connect R Studio to GitHub ( <a href="https://happygitwithr.com/rstudio-git-github.html">instructions</a>.</li>
-<li>Open R-Studio and load the R project file “building.map_1920.Rproj” from from your local directory (<em>e.g. C:/building_map/github/</em>).</li>
-<li>Specify the path name of your local directory in the R Markdown files “Codebook.Rmd” and “Usage_code.Rmd”. This is needed to import the data sets from the Zenodo and Github repository.</li>
+<li>Download the <a href="https://www.doi.org/10.5281/zenodo.3715200">Zenodo data repository</a>, unpack the files and save them to a local directory on your desktop (e.g. C:/building.map_1920/02_Zenodo/).</li>
+<li>Download the GitHub repository and save the files to a local directory on your desktop (e.g. C:/building_map/Github/). Alternatively, you can connect R Studio to GitHub (<a href="https://happygitwithr.com/rstudio-git-github.html">instructions</a>).</li>
+<li>Open R-Studio and load the R project file “building.map_1920.Rproj” from from your local directory (e.g. C:/building.map_1920/01_Github/).</li>
+<li>Create a new directory to cover the output files (e.g. C:/building.map_1920/03_Output/)</li>
+<li>Specify the path name of your local directory in the chunk “specify_inputs” of the R Markdown files “Codebook.Rmd” and “Usage_code.Rmd”.</li>
 <li>Execute the R Markdown files in R-Studio.</li>
 </ol>
 </div>
