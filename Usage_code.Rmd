@@ -77,86 +77,41 @@ options(dplyr.summarise.inform = FALSE)
 
 rm(list=ls()) 
 
-outDir<-"C:/Users/u.kral/ownCloud/03_TU Wien/MUBS/temp/Input data comparative analysis"
-
 #####################################################################################
 # specify local directory that includes the files from the Zenodo repository https://www.doi.org/10.5281/zenodo.3715200 
 
-dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/Zenodo/"
+dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/02_Zenodo/"
 ######################################################################################
-
 
 #####################################################################################
 # specify local directory that includes the files from the GitHub repository https://github.com/ukral/building.map_1920
 
-dir_github = "C:/Users/u.kral/ownCloud/03_TU Wien/Github/building.map_1920/"
-######################################################################################
+dir_github = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/01_Github/"
 
 #####################################################################################
 # specify local directory that covers the output files
 
-dir_output = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/output"
+dir_output = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/03_Output/"
 ######################################################################################
 
 
 
-
-
-# wien1920_raw <- read.csv(file=paste(outDir, "/W1920_GES.csv", sep = ""), sep = ";", dec = ".", header = TRUE, stringsAsFactors = FALSE)
-# wien1920_raw$area <- gsub(",", ".", wien1920_raw$area)
-# wien1920_raw$area <- as.numeric(wien1920_raw$area)
-# wien1920_raw$gesid <- gsub("B", "UD", wien1920_raw$gesid)
-# wien1920_raw$szbg_bj <- gsub(" ", "", wien1920_raw$szbg_bj)
-
-
-#wien1920_col_select <- c("gesid", "szbg_id", "UD.1920", "bez", "area", "bp_ma08", "szbg_bj",  "plan_fyr", "editor", "quelle", "planalter",  "Location.city_limits_1920", "Location.abam_1920", "boku1912", "stadtew", "ma37oid","ma37adr", "ma37mov", "Address.2020_corr", "adr_eq", "adr_rj", "adr_ad", "adr_fin", "plan_adr", "Polygon.source.Scale")
-
-wien1920_col_name <- c("ID", "ID.bs", "UD.1920", "UD.2020", "Area", "CD.abam", "CD.bs",  "TP_pub.date_year", "Editor", "Polygon.source_id", "TP_pub.date", "Location.city_limit_1920", "Location.abam_1920", "Location.lsm", "Location.usm", "ID.Address.2019", "Address.2019", "Address.2019_reloc", "Address_reviewed", "Address_identical", "Address_rejected", "Address_added", "Address.1920", "Address_revised", "Polygon.source.Scale")
-
-# 
-# wien1920_col <- data.frame(wien1920_col_select, wien1920_col_name)
-# colnames(wien1920_col) <- c("col_names_raw_data", "col_names_release")
-# 
-# wien1920 <- wien1920_raw[, wien1920_col_select]
-# colnames(wien1920) <- wien1920_col_name
-# 
-# #### Modifikationen für wien1920
-# pos_temp <- which(wien1920$TP_pub.date_year == 2018)
-# wien1920[pos_temp, "TP_pub.date_year"] <- 1912 # Generalstadtplan Wien 1912
-# wien1920$Location.usm <- gsub("JA", "yes", wien1920$Location.usm)
-# wien1920$Location.usm <- gsub("NEIN", "no", wien1920$Location.usm)
-# wien1920$Location.lsm <- gsub("JA", "yes", wien1920$Location.lsm)
-# wien1920$Location.lsm <- gsub("NEIN", "no", wien1920$Location.lsm)
-# wien1920$CD.abam[is.na(wien1920$CD.abam)] <- ""
-# wien1920$CD.bs[is.na(wien1920$CD.bs)] <- ""
-# wien1920$CD.bs <- gsub(",", ";", wien1920$CD.bs)
-# wien1920$Address.2019[is.na(wien1920$Address.2019)] <- ""
-# wien1920$Address.2019_reloc[is.na(wien1920$Address.2019_reloc)] <- ""
-# wien1920$Address_reviewed[is.na(wien1920$Address_reviewed)] <- ""
-# wien1920$Address_identical[is.na(wien1920$Address_identical)] <- ""
-# wien1920$Address_rejected[is.na(wien1920$Address_rejected)] <- ""
-# wien1920$Address_added[is.na(wien1920$Address_added)] <- ""
-# wien1920$Address.1920[is.na(wien1920$Address.1920)] <- ""
-# wien1920$Address_reviewed[is.na(wien1920$Address_reviewed)] <- ""
-# wien1920$Polygon.source.Scale <- paste("1:", wien1920_raw$Polygon.source.Scale, sep = "")
-# 
-# write.table(wien1920, file = paste(dir, "Datasets/Building stock and age 1920/BSM_1920_attribute_table_temporary.csv", sep = ""), sep = ";")
 
 ################
 # datasets
 ################
 
 # Import CSV file "BSM_1920_attribute_table_temporary", which is the attribute table with primary data fields
-wien1920 <- read.table(paste(dir_zenodo, "Datasets/Building stock and age 1920/BSM_1920_attribute_table_temporary.csv", sep = ""), sep = ";", stringsAsFactors = F)
+wien1920 <- read.table(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table_temporary.csv", sep = ""), sep = ";", stringsAsFactors = F)
 wien1920$Area.ha <- wien1920$Area*10^-4
 
 # Import SHP file "City boundary 1920"
-CB_1920 <- st_read(paste(dir_zenodo, "Datasets/City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
+CB_1920 <- st_read(paste(dir_zenodo, "City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
 
 # Import SHP file "Urban district boundaries 1920" 
-UDB_1920 <- st_read(paste(dir_zenodo, "Datasets/Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
+UDB_1920 <- st_read(paste(dir_zenodo, "Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
 
-SABAM_1920 <- st_read(paste(dir_zenodo, "Datasets/Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
+SABAM_1920 <- st_read(paste(dir_zenodo, "Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
 
 ################
 # Background data
@@ -236,7 +191,7 @@ mycol3 <- t_col("grey", perc = 80, name = "lt.grey")
 ##############
 
 
-pdf(paste(dir, "Figures/Figure 01a.pdf", sep = ""), width = 600/60, height = 350/60)
+pdf(paste(dir_output, "Figure 01a.pdf", sep = ""), width = 600/60, height = 350/60)
 par(mar=c(5,5,3,5))
 
 plot(data[,1], data[,3], type = "p", pch = 19, xlab="", ylab = "", cex=1.5,las=1, ylim = c(0,200000)) # Häuser
@@ -251,7 +206,7 @@ dev.off()
 
 
 
-pdf(paste(dir, "Figures/Figure 01b.pdf", sep = ""), width = 600/60, height = 350/60)
+pdf(paste(dir_output, "Figure 01b.pdf", sep = ""), width = 600/60, height = 350/60)
 par(mar=c(5,5,3,5))
 
 plot(data[,1], data[,3], type = "p", pch = 19, xlab="year", ylab = "", cex=1.5,las=1, ylim = c(0,120),yaxt='n') # Häuser
@@ -431,7 +386,7 @@ text(x+45, y, "digital", col = "black", pos = 1)
 text(1700, 115, "Data format", col = "black", pos = 4)
 
 }
-pdf(paste(dir, "Figures/Test2.pdf", sep = ""), width = 10, height = 13)
+pdf(paste(dir_output, "Test2.pdf", sep = ""), width = 10, height = 13)
 
 
 ```
@@ -1467,7 +1422,6 @@ CD.bs_fit_data_plot <- ggplot(CD.bs_fit_data, aes(fill= CD.bs_fit, y=sum_area, x
 
 CD.bs_fit_data_plot
 
-#ggsave("E:/01 Projekte/MUBS_FWF/R-Resultat/Publikationen/Building stock in Vienna in the 1920s/Figures/Figure CD.bs_fit_data_plot.png", plot =CD.bs_fit_data_plot, width = 10, height = 5
 
 ##############
 # Only entries with records in CD.bs and PoC
@@ -1633,9 +1587,9 @@ The authors declare no competing interests.
 ## Write CSV file {-}
 
 ```{r, echo = FALSE}
-# Data to be exported
+# The columns, which are exported, are listed in DD_OOT_2
 
-write.table(wien1920[,DD_OOT_2$Data_field], file = paste(dir_zenodo, "Datasets/Building stock and age 1920/BSM_1920_attribute_table_final.csv", sep = ""), sep = ";", row.names=FALSE)
+write.table(wien1920[,DD_OOT_2$Data_field], file = paste(dir_output, "BSM_1920_attribute_table_final.csv", sep = ""), sep = ";", row.names=FALSE)
 
 
 
@@ -1653,8 +1607,8 @@ columns = 1
 rows = 4
   
 figure_out_1 <- ggarrange(area_district_adapt_plot, poly_source_plot, area_ud2020_editor_plot, temp_presence_district_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir, "Figures/Figure 07.png", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
-ggsave(paste(dir, "Figures/Figure 07.pdf", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 07.png", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 07.pdf", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
 
 
 # Plot figure 08
@@ -1662,27 +1616,27 @@ columns = 1
 rows = 4
   
 figure_out_2 <- ggarrange(bp_plot, PoC_data_plot, data_location.city_limits_plot, data_location.amap_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir, "Figures/Figure 08.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
-ggsave(paste(dir, "Figures/Figure 08.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
 
 # Plot Figure 09
 
-ggsave(paste(dir, "Figures/Figure 09.png", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
+ggsave(paste(dir_output, "Figure 09.png", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
 
-ggsave(paste(dir, "Figures/Figure 09.pdf", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
+ggsave(paste(dir_output, "Figure 09.pdf", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
 
 # Plot Figure 10
-ggsave(paste(dir, "Figures/Figure 10.png", sep = ""), plot = p, width = 9 , height = 5)
-ggsave(paste(dir, "Figures/Figure 10.pdf", sep = ""), plot = p, width = 9 , height = 5)
+ggsave(paste(dir_output, "Figure 10.png", sep = ""), plot = p, width = 9 , height = 5)
+ggsave(paste(dir_output, "Figure 10.pdf", sep = ""), plot = p, width = 9 , height = 5)
 
 # Plot Figure 11
 columns = 1
 rows = 2
   
 figure_loc <- ggarrange(location_confirm_plot, location_overview_analysis_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir, "Figures/Figure 11.png", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 11.png", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
 
-ggsave(paste(dir, "Figures/Figure 11.pdf", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 11.pdf", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
 
 
 # Plot Figure 12
@@ -1693,7 +1647,7 @@ rows = 4
   
 figure_12 <- ggarrange(BSM_1920_bc_final_plot, Ratio_CD.bs_data_plot, CD.bs_fit_source_plot, CD.bs_fit_data_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
 
-ggsave(paste(dir, "Figures/Figure 12.png", sep = ""), plot = figure_12, width = columns *9 , height = rows* 4)
-ggsave(paste(dir, "Figures/Figure 12.pdf", sep = ""), plot = figure_12, width = columns * 9 , height = rows* 4)
+ggsave(paste(dir_output, "Figure 12.png", sep = ""), plot = figure_12, width = columns *9 , height = rows* 4)
+ggsave(paste(dir_output, "Figure 12.pdf", sep = ""), plot = figure_12, width = columns * 9 , height = rows* 4)
 
 ```
