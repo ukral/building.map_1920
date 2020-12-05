@@ -27,7 +27,7 @@ Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Rei
 1. Download [R](https://www.r-project.org/) and install it on  your desktop.
 2. Download [R-Studio](https://rstudio.com/) and install in on your desktop.
 3. Download the [Zenodo data repository](https://www.doi.org/10.5281/zenodo.3715200), unpack the files and save them to a local directory on your desktop (e.g. C:/building.map_1920/02_Zenodo/).
-4. Download the GitHub repository and save the files to a local directory on your desktop (e.g. C:/building_map/Github/). Alternatively, you can connect R Studio to GitHub ([instructions](https://happygitwithr.com/rstudio-git-github.html)).
+4. Download the GitHub repository and save the files to a local directory on your desktop (e.g. C:/building_map/01_Github/). Alternatively, you can connect R Studio to GitHub ([instructions](https://happygitwithr.com/rstudio-git-github.html)).
 5. Open R-Studio and load the R project file "building.map_1920.Rproj" from from your local directory (e.g. C:/building.map_1920/01_Github/).
 6. Create a new directory to cover the output files (e.g. C:/building.map_1920/03_Output/)
 7. Specify the path name of your local directory in the chunk "specify_inputs" of the R Markdown files "Codebook.Rmd" and "Usage_code.Rmd".
