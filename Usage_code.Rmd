@@ -862,7 +862,7 @@ totals <- data_location.city_limits %>%
 
 data_location.city_limits_plot <- ggplot(data_location.city_limits, aes(x=UD.2020, y=sum_area, fill = Location.city_limit_1920))+
   geom_bar(position="stack", stat="identity")+
-    ggtitle("Location of building footprints - city limits 1920") +
+    ggtitle("Location of building footprints (Reference: city boundary 1920)") +
     ylab("Area [hectares]") +
     scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
     geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
@@ -900,7 +900,7 @@ totals <- data_location.amap %>%
 
 data_location.amap_plot <- ggplot(data_location.amap, aes(x=UD.2020, y=sum_area, fill = Location.abam_1920))+
   geom_bar(position="stack", stat="identity")+
-    ggtitle("Location of building footprints - scope of building age map 1920") +
+    ggtitle("Location of building footprints (Reference: Scope of building age map 1920)") +
     ylab("Area [hectares]") +
     scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
   geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
