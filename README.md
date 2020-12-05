@@ -10,7 +10,7 @@ Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Rei
 1. City boundary 1920 (CB_1920.shp)
 2. Urban district boundaries 1920 (UDB_1920.shp)
 3. Scope of analog building age map 1920 (SABAM_1920.shp)
-4. Building stock and age 1920 (BSM_1920.shp) and its attribute tables (BSM_1920_attribute_table_final.csv and BSM_1920_attribute_table_temporary.csv)
+4. Building stock and age 1920 (BSM_1920.shp) and its attribute table (BSM_1920_attribute_table.csv)
 5. City boundary 1920 (CB_2020.shp)
 6. Areas out of scope 1920 (AOOS_1920.shp)
 
@@ -18,7 +18,7 @@ Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Rei
 
 1. **Codebook**. The Codebook specifies the data format of the aforementioned 4 files, the fields of the attribute tables and comments on the fields to facilitate data usage and interpretation. The Codebook also includes an interactive map with the location and geographical scope of the study area. The Codebook is available in a [readable online version](https://rpubs.com/ukral/699029) for end-users as well as [R-Code](Codebook.Rmd) for those who want to use and re-use the Codebook.
 
-2. **Usage code**.The usage code supplements the aforementioned Data Descriptor and enables the reproduction of figures and data.
+2. **Usage code**. The usage code supplements the aforementioned Data Descriptor and enables the reproduction of figures and data.
 
 3. **Background data**. The file [Background_data.xlsx](Background_data.xlsx) is a compilation of tables and datasets from various sources. The sheet "Content page" provides and overview, descriptions and references for the included data
 

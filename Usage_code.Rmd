@@ -62,6 +62,7 @@ library(knitr)
 library(kableExtra)
 library(rmarkdown)
 library(qwraps2)
+library(RColorBrewer)
 
 options(dplyr.summarise.inform = FALSE)
 
@@ -94,22 +95,11 @@ dir_output = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/03_Output/"
 
 
 
-# Importing datasets from dir_zenodo
-
-wien1920 <- read.table(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table_temporary.csv", sep = ""), sep = ";", stringsAsFactors = F)
-wien1920$Area.ha <- wien1920$Area*10^-4
-
-CB_1920 <- st_read(paste(dir_zenodo, "City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
-
-UDB_1920 <- st_read(paste(dir_zenodo, "Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
-
-SABAM_1920 <- st_read(paste(dir_zenodo, "Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
-
 ################
 # Importing datasets from dir_github
 ################
 
-DD_OOT_2 <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "DD_OOT_2", col_names =  TRUE, range = "A3:C31")
+DD_OOT_2 <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "DD_OOT_2", col_names =  TRUE, range = "A3:B31")
 
 BUA_1912_statistic_raw <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "BUA_1912_statistic", col_names =  TRUE, range = "A3:K15")
 
@@ -127,6 +117,31 @@ INHAB_TL <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet
 colnames(INHAB_TL) <- c("year", "Inhabitants")
 
 BS_1920s <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet =  "BS_1920s", col_names = TRUE, range = "A1:L42862" )
+
+################
+# Importing datasets from dir_zenodo
+################
+
+
+#wien1920 <- read.table(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table_temporary.csv", sep = ""), sep = ";", stringsAsFactors = F)
+
+wien1920_complete <- read.csv(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table.csv", sep = ""), sep = ";", stringsAsFactors = F)
+
+# Use only primary data fields
+col_import <- DD_OOT_2[which(DD_OOT_2$Stage == 1), "Data_field"]
+
+wien1920 <- wien1920_complete[, col_import$Data_field]
+
+wien1920$Area.ha <- wien1920$Area*10^-4
+
+CB_1920 <- st_read(paste(dir_zenodo, "City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
+
+UDB_1920 <- st_read(paste(dir_zenodo, "Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
+
+SABAM_1920 <- st_read(paste(dir_zenodo, "Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
+
+
+
 
 ```
 # Background and summary
@@ -181,12 +196,18 @@ Figure_1 <- function(){
 ####### Plot 1
 plot(data[,1], data[,3], type = "p", pch = 19, xlab="", ylab = "", cex=1.5,las=1, xlim = c(1700,2050), ylim = c(0,200000)) # Häuser
 title(main = "Building counts and settlement areas for the city of Vienna", adj = 0)
+
 par(new=T)
-plot(data[,1], data[,4]*100, col=2, pch = 19, ylab="", xlab="year",cex=1.5,  xlim = c(1700,2050), xaxt="n", yaxt="n", ylim = c(0,20000)) # Siedlungsfläche in ha
+plot(c(2020,2020), c(0,200000), type = "l", col="black", lwd=2, lty=2, xaxt="n", yaxt="n", xlab= "", ylab = "", xlim = c(1700,2050), ylim = c(0,200000))
+text(2020,0, "today", pos = 4, srt = 90)
+
+par(new=T)
+plot(data[,1], data[,4]*100, col=2, pch = 19, ylab="", xlab="year",cex=1.5,  xlim = c(1700,2050), xaxt="n", yaxt="n", ylim = c(0,20000)) # Settlement area by hectares
 axis(4, pretty(0:20000), col.axis=2, las=1)
 
-legend("topleft", c("Buildings [Number of buildings]", "Settlement Area [hectares]"), col=c(1,2), pch = 19)
+legend("topleft", c("Buildings by number", "Settlement area by hectares"), col=c(1,2), pch = 19)
 
+# figure labels. Code copied from https://www.r-bloggers.com/2017/03/adding-figure-labels-a-b-c-in-the-top-left-corner-of-the-plotting-region/
 par(xpd=NA)
 di <- dev.size("in")
 x <- grconvertX(c(0, di[1]), from="in", to="user")
@@ -199,11 +220,16 @@ x <- x[1] + strwidth(txt, cex=3) / 2
 y <- y[2] - strheight(txt, cex=3) / 2
 text(x, y, txt, font = 2, cex=1.2)
 
+
+
+
 ####### Plot 2
 par(mar=c(5,5,2,5))
 dummy_data <- data.frame(seq(1700, 2050, by = 50), seq(0, 130, by = 130/7))
 plot(dummy_data, xlab="year", ylab = "", yaxt="n", col = "transparent")
 title(main = "Cartographic documents for the city of Vienna", adj = 0)
+lines(c(2020,2020), c(0,115), col="black", lwd=2, lty=2)
+text(2020,0, "today", pos = 4, srt = 90)
 
 ok <- 10 # Oberkante vom untersten Balken
 hoehe <- 10 # Balkenhöhe
@@ -229,7 +255,7 @@ text(1938, ok+ab+ab + 5, "Aerial photographs", col = "black", pos = 4, font = fn
 
 # Building stock maps
 uk <- 60 # unterkante vom senkrechten balken
-text(1829, uk+hoehe + 5, "Historic building stock maps", col="black", pos = 4, font = fn)
+text(1829, uk+hoehe + 5, "Building stock", col="black", pos = 4, font = fn)
 
 #1920 Stadkarte
 rect(1920, uk, 1921, uk+hoehe, col = mycol2, border = mycol2)
@@ -241,9 +267,9 @@ text(1829, uk + 5, "Franzeisischer\nKataster 1829", col = "darkblue", pos = 4)
 
 ab <- ab*1.5
 
-# Setttlemen Area maps
+# Setttlement area maps
 
-text(1704, uk+ab+hoehe + 5, "Historic settlement area maps", col="black", pos = 4, font = fn)
+text(1704, uk+ab+hoehe + 5, "Settlement areas", col="black", pos = 4, font = fn)
 
 rect(1912, uk+ab, 1913, uk+ab+hoehe, col = mycol2, border = mycol2)
 text(1912-2, uk+ab + 2, "1912", col = "darkblue", pos = 4)
@@ -268,7 +294,7 @@ rect(1700, 0, 2050, 50, col = mycol3, border = mycol3)
 text(1700, 50-5, "Topographic documents", col = "grey25", pos = 4, font = 2)
 
 rect(1700, 55, 2050, 115, col = mycol3, border = mycol3)
-text(1700, 110, "Reconstruction and mapping of historical settlement data", col = "grey25", pos = 4, font = 2)
+text(1700, 110, "City-wide mapping of historical information", col = "grey25", pos = 4, font = 2)
 
 
 #Legende
@@ -465,7 +491,8 @@ poly_source_plot <- ggplot(data=wien1920, aes(x=UD.2020, y=Area.ha, fill = Polyg
   ylab("Area [hectares]") +
   scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
   geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
-  labs(fill = "Cartographic document")
+  labs(fill = "Cartographic document")+
+  scale_fill_brewer(palette="Dark2")
 poly_source_plot
 
 
@@ -499,7 +526,8 @@ area_ud2020_editor_plot <- ggplot(area_ud2020_editor, aes(x=UD.2020, y=sum_area,
   ylab("Area [hectares]") +
   scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
   geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
-  labs(fill = "Editor's name")
+  labs(fill = "Editor's name")+
+  scale_fill_brewer(palette="Set3")
 
 area_ud2020_editor_plot
 ```
@@ -543,8 +571,8 @@ temp_presence_district_plot <- ggplot(temp_presence_district, aes(fill=TP_pub.da
     ggtitle("Temporal presence of building footprints") + 
   ylab("Area [hectares]") +
   scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
-  geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+ 
-  labs(fill = "Temporal\npresence\nconfirmed")
+  geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+   labs(fill = "Temporal\npresence\nconfirmed")+
+  scale_fill_brewer(palette="Set1")
   
 temp_presence_district_plot
 
@@ -743,7 +771,8 @@ bp_plot <- ggplot(bp, aes(x=PoC, y = sum_area, fill = timespan))+
   ggtitle("Period of construction")+
   ylab("Area [hectares]") +
   xlab("Period of construction")+
-  geom_text(data=totals, aes(x=PoC, label=total, y=total, fill=NULL), nudge_y=20, size = 3)
+  geom_text(data=totals, aes(x=PoC, label=total, y=total, fill=NULL), nudge_y=20, size = 3)+
+  scale_fill_brewer(palette="Paired")
 
 bp_plot
 
@@ -801,7 +830,8 @@ PoC_data_plot <- ggplot(PoC_data, aes(x=UD.2020, y= sum_area, fill = PoC.source_
   ylab("Area [hectares]") +
   scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
   geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
-  labs(fill = "Data source")
+  labs(fill = "Data source")+
+  scale_fill_brewer(palette="Set1")
 PoC_data_plot
 
 PoC_data_summary <- PoC_data %>%
@@ -836,7 +866,9 @@ data_location.city_limits_plot <- ggplot(data_location.city_limits, aes(x=UD.202
     ylab("Area [hectares]") +
     scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
     geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
-   labs(fill = "Location")
+   labs(fill = "Location")+
+  scale_fill_brewer(palette="Set2")
+
 data_location.city_limits_plot
 
 data_location.city_limits <- data.frame(data_location.city_limits, stringsAsFactors = F)
@@ -859,20 +891,21 @@ Location inside or outside of the building age map 1920 geographical coverage.
 ```{r, echo = FALSE}
 
 data_location.amap <- wien1920 %>%
-  group_by(UD.1920,Location.abam_1920) %>%
+  group_by(UD.2020,Location.abam_1920) %>%
   summarise(sum_area = sum(Area.ha))
 
 totals <- data_location.amap %>%
-  group_by(UD.1920) %>%
+  group_by(UD.2020) %>%
   summarise(total = round(sum(sum_area), digits=0))
 
-data_location.amap_plot <- ggplot(data_location.amap, aes(x=UD.1920, y=sum_area, fill = Location.abam_1920))+
+data_location.amap_plot <- ggplot(data_location.amap, aes(x=UD.2020, y=sum_area, fill = Location.abam_1920))+
   geom_bar(position="stack", stat="identity")+
     ggtitle("Location of building footprints - scope of building age map 1920") +
     ylab("Area [hectares]") +
-    scale_x_continuous("Urban district 1920", labels = c(1:21), breaks = c(1:21))+
-  geom_text(data=totals, aes(x=UD.1920, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
-  labs(fill = "Location")
+    scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
+  geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
+  labs(fill = "Location")+
+  scale_fill_brewer(palette="Set2")
 
 data_location.amap_plot 
 
@@ -897,7 +930,7 @@ area_statistic <- sum(UD_AREA_1920_statistic$Gesamtgrundfläche) # in ha
 
 ```
 
-* Difference between CB_1920 and statistical yearbook (1929): `r abs(round(area_polygon - area_statistic, digits=0))` ha (`r round(100 - (area_polygon / area_statistic *100), digits=2)`%)
+* Difference between CB_1920 and SY_1929: `r abs(round(area_polygon - area_statistic, digits=0))` ha (`r round(100 - (area_polygon / area_statistic *100), digits=2)`%)
 
 ### Urban district area 1920
 
@@ -915,8 +948,8 @@ colnames(area_statistic_district) <- c("UD.1920", "Area")
 
 # combine data
 
-data_area_poly <- data.frame(c(1:21), rep("Urban district limits map 1920", times =21), area_polygon_district$Area)
-data_area_stat <- data.frame(c(1:21), rep("Statistical yearbook (1929)", times =21), area_statistic_district$Area)
+data_area_poly <- data.frame(c(1:21), rep("UDB_1920", times =21), area_polygon_district$Area)
+data_area_stat <- data.frame(c(1:21), rep("SY_1929", times =21), area_statistic_district$Area)
 
 col <- c("UD.1920", "Data_source", "Area")
 
@@ -940,8 +973,15 @@ plaus_dist_area_plot <- ggplot(data, aes(fill=Data_source, y=Area, x=UD.1920)) +
     labs(fill = "Data source")
 plaus_dist_area_plot
 
+diff <- data.frame(c(1:21), data[which(data$Data_source == "UDB_1920"), "Area"], data[which(data$Data_source == "SY_1929"), "Area"], data[which(data$Data_source == "UDB_1920"), "Area"] - data[which(data$Data_source == "SY_1929"), "Area"])
+
+colnames(diff) <- c("UD.1920", "UDB_1920", "SY_1919", "area_diff_abs")
+diff$area_diff_rel <- diff$area_diff_abs / data[which(data$Data_source == "UDB_1920"), "Area"]*100
 
 ```
+
+
+Absolute differences between UDB_1920 and SY_1929. `r diff %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
 ### Building counts by urban district
 
@@ -959,9 +999,9 @@ while (i <= 120) {
   group_by(UD.1920) %>%
   summarize(sum_count = n())
   if (i == 80) {
-    data.map <- data.frame(c(1:21), rep(paste("Building stock map (Polygons >=", i," m2)", sep =""), 21), wien1920_buildings_count_district[1:21,2]) 
+    data.map <- data.frame(c(1:21), rep(paste("BSM_1920 (Polygons >=", i," m2)", sep =""), 21), wien1920_buildings_count_district[1:21,2]) 
     } else {
-    data.map_new <- data.frame(c(1:21), rep(paste("Building stock map (Polygons >=", i," m2)", sep =""), 21), wien1920_buildings_count_district[1:21,2])
+    data.map_new <- data.frame(c(1:21), rep(paste("BSM_1920 (Polygons >=", i," m2)", sep =""), 21), wien1920_buildings_count_district[1:21,2])
     data.map <- rbind(data.map, data.map_new)
   }  
 i = i+20
@@ -970,8 +1010,8 @@ i = i+20
 
 
 # Plotting figure
-data.stat <- data.frame(c(1:21), rep("Statistical yearbook (1923)", 21), BC_statistic$Häuser_2) # yearbook 1914
-data.stat2 <- data.frame(c(1:21), rep("Statistical yearbook (1934)", 21), BC_statistic$Häuser_3) 
+data.stat <- data.frame(c(1:21), rep("SY_1929", 21), BC_statistic$Häuser_2) # yearbook 1914
+data.stat2 <- data.frame(c(1:21), rep("SY_1934", 21), BC_statistic$Häuser_3) 
 coln <- c("UD.1920s", "data_source", "counts")
 colnames(data.map) <- coln
 colnames(data.stat) <- coln
@@ -1144,16 +1184,17 @@ colnames(BSM_1920_ID.bs) <- colnames(BSM_1920_bc)
 
 BSM_BS_bc <- rbind(BSM_1920_bc, BS_1920s_YoC, BSM_1920_CD.bs, BSM_1920_ID.bs)
 
-sel_pos <- c(which(BSM_BS_bc$data_source == "YoC.1920s_BS_1920s"), which(BSM_BS_bc$data_source == "CD.bs_BSM_1920"), which(BSM_BS_bc$data_source == "Statistical yearbook (1923)"))
+sel_pos <- c(which(BSM_BS_bc$data_source == "YoC.1920s_BS_1920s"), which(BSM_BS_bc$data_source == "CD.bs_BSM_1920"), which(BSM_BS_bc$data_source == "SY_1929"))
 
-ranking <- c("Statistical yearbook (1923)","YoC.1920s_BS_1920s","CD.bs_BSM_1920")
+ranking <- c("SY_1929","YoC.1920s_BS_1920s","CD.bs_BSM_1920")
 
 BSM_1920_bc_final_plot <- ggplot(BSM_BS_bc[sel_pos,], aes(x= UD.1920s, y=counts, fill=factor(data_source, levels = ranking)))+
           geom_bar(position="dodge", stat="identity")+
           scale_x_continuous("Urban district 1920s", labels = c(1:21), breaks = c(1:21))+
           ggtitle("Comparative building counts")+
           ylab("Building count")+
-          scale_fill_discrete(name = "Data field,\nsource", labels = c("Buildings,\nSY_1923 dataset", "YoC.1920s,\nBS_1920s dataset", "CD.bs,\nBSM_1920 dataset"))
+          scale_fill_brewer(name = "Data field,\nData source", labels = c("Buildings,\nSY_1929", "YoC.1920s,\nBS_1920s", "CD.bs,\nBSM_1920"), palette="Dark2")
+  
 BSM_1920_bc_final_plot
 
 # Summary
@@ -1217,16 +1258,16 @@ Ratio_CD.bs_data_plot <- ggplot(Ratio_data[which(Ratio_data$Ratio_type == "'CD.b
           ggtitle("Potential for assigning addtional 'YoC.1920s' records") + 
           xlab("Urban district 1920 (reordered)")+
           ylim(c(0:1))+
-          scale_fill_discrete(name = "Ratio", labels = c("YoC.1920s\nassignments"))
+          scale_fill_manual(values= "steelblue", name = "Ratio", labels = c("YoC.1920s\nassignments"))
           
 Ratio_CD.bs_data_plot
 
 
 ```
 
-* BS_1920s perspective: : The BS_1920s includes `r BSM_BS_bc_summary_ratios[3,2]`(100%) entries with records in “YoC.1920”, “STR.1920s” and “BN.1920”. The latter two are needed to join the BS_1920s and BSM_1920 dataset. The workflow in this study captured `r BSM_BS_bc_summary_ratios[1,2]` (`r round(BSM_BS_bc_summary_ratios[1,2]/BSM_BS_bc_summary_ratios[3,2]*100, digits =0)`%) “YoC.1920s” records and assigned them to buildings in BSM_1920. In other words, the remaining potential for assignments is (`r 100-round(BSM_BS_bc_summary_ratios[1,2]/BSM_BS_bc_summary_ratios[3,2]*100, digits =0)`%).
+* BS_1920s perspective: : The BS_1920s includes `r BSM_BS_bc_summary_ratios[3,2]`(100%) entries with records in “YoC.1920”, “STR.1920s” and “BN.1920”. The latter two are needed to join the BS_1920s and BSM_1920. The workflow in this study captured `r BSM_BS_bc_summary_ratios[1,2]` (`r round(BSM_BS_bc_summary_ratios[1,2]/BSM_BS_bc_summary_ratios[3,2]*100, digits =0)`%) “YoC.1920s” records and assigned them to buildings in BSM_1920. In other words, the remaining potential for assignments is (`r 100-round(BSM_BS_bc_summary_ratios[1,2]/BSM_BS_bc_summary_ratios[3,2]*100, digits =0)`%).
 
-* Statistical yearbook (SY_1923) perspective: `r BSM_BS_bc_summary_ratios %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
+* Statistical yearbook (SY_1929) perspective: `r BSM_BS_bc_summary_ratios %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
 
 
@@ -1330,7 +1371,8 @@ CD.bs_fit_data_plot <- ggplot(CD.bs_fit_data, aes(fill= CD.bs_fit, y=sum_area, x
     ylab("Area [hectares]") +
     scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23)) +
     geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
-    labs(fill = "Fitting")
+    labs(fill = "Fitting")+
+  scale_fill_brewer(palette="Set3")
 
 CD.bs_fit_data_plot
 
@@ -1354,9 +1396,10 @@ CD.bs_fit_data_red_plot <- ggplot(CD.bs_fit_data_red, aes(fill= CD.bs_fit, y=sum
     ylab("Area [hectares]") +
     scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23)) +
     geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=3, size = 3)+
-    labs(fill = "Fitting")
+    labs(fill = "Fitting")+
+  scale_fill_brewer(palette="Set3")
 
-CD.bs_fit_data_red_plot 
+#CD.bs_fit_data_red_plot 
 
 CD.bs_fit_data_red_summary <- CD.bs_fit_data_red %>%
   group_by(CD.bs_fit) %>%
@@ -1413,7 +1456,8 @@ CD.bs_fit_source_plot <- ggplot(CD.bs_fit_source, aes(fill=CD.bs_fit, y=sum_area
     xlab("Data field, source")+  
     geom_text(data=totals, aes(x=PoC.source_name, label=total, y=total, fill=NULL), nudge_y=80, size = 3)+
     labs(fill = "Fitting")+
-    ylim(c(0,2000))
+    ylim(c(0,2000))+
+  scale_fill_brewer(palette="Set3")
 CD.bs_fit_source_plot
 
 
@@ -1460,12 +1504,12 @@ CD.bs_fit_data_excl_salz_donut_plot <- ggplot(data, aes(ymax=ymax, ymin=ymin, xm
   geom_rect() +
   ggtitle("Fitting of 'CD.bs' within 'PoC'") +
   geom_label( x=3.5, aes(y=labelPosition, label=label), size=4) +
-  scale_fill_brewer(palette=2) +
   coord_polar(theta="y") +
   xlim(c(2, 4)) +
   theme_void() +
   theme(legend.position = "right")+
-  labs(fill = "Fitting")
+  labs(fill = "Fitting")+
+  scale_fill_brewer(palette="Set3")
 CD.bs_fit_data_excl_salz_donut_plot
 
 data_summary <- data %>%
@@ -1501,7 +1545,9 @@ The authors declare no competing interests.
 ```{r, echo = FALSE}
 # The columns, which are exported, are listed in DD_OOT_2
 
-write.table(wien1920[,DD_OOT_2$Data_field], file = paste(dir_output, "BSM_1920_attribute_table_final.csv", sep = ""), sep = ";", row.names=FALSE)
+col_export <- DD_OOT_2$Data_field
+
+write.table(wien1920[, col_export], file = paste(dir_output, "BSM_1920_attribute_table.csv", sep = ""), sep = ";", row.names=FALSE)
 
 
 
@@ -1536,8 +1582,8 @@ columns = 1
 rows = 4
   
 figure_out_2 <- ggarrange(bp_plot, PoC_data_plot, data_location.city_limits_plot, data_location.amap_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
-ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*5)
+ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*5)
 
 # Plot Figure 09
 

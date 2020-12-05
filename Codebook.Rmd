@@ -50,7 +50,7 @@ dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/02_Zenodo/"
 
 BSM_1920 <- st_read(paste(dir_zenodo, "Building stock and age 1920/BSM_1920.shp", sep = ""), quiet = T)
 
-dataset_final <- read.csv(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table_final.csv", sep = ""), sep = ";")
+dataset_final <- read.csv(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table.csv", sep = ""), sep = ";")
 
 CB_2020 <- st_read(paste(dir_zenodo, "City boundary 2020/CB_2020.shp", sep = ""), quiet = T)
 
