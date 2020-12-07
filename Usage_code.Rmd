@@ -123,8 +123,6 @@ BS_1920s <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet
 ################
 
 
-#wien1920 <- read.table(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table_temporary.csv", sep = ""), sep = ";", stringsAsFactors = F)
-
 wien1920_complete <- read.csv(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table.csv", sep = ""), sep = ";", stringsAsFactors = F)
 
 # Use only primary data fields
@@ -1582,8 +1580,8 @@ columns = 1
 rows = 4
   
 figure_out_2 <- ggarrange(bp_plot, PoC_data_plot, data_location.city_limits_plot, data_location.amap_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*5)
-ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*5)
+ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
 
 # Plot Figure 09
 
