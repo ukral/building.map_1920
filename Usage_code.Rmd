@@ -192,18 +192,31 @@ Figure_1 <- function(){
 
   
 ####### Plot 1
-plot(data[,1], data[,3], type = "p", pch = 19, xlab="", ylab = "", cex=1.5,las=1, xlim = c(1700,2050), ylim = c(0,200000)) # Häuser
-title(main = "Building counts and settlement areas for the city of Vienna", adj = 0)
+  
 
+
+
+#par(new=T)
+plot(data[,1], data[,3], type = "p", pch = 19, xlab="", ylab = "", cex=1.5,las=1, xlim = c(1700,2050),  ylim = c(0,200000), col="darkorchid") # Häuser
+axis(2, col.axis= "darkorchid", las=1) 
+
+par(new=T)
+plot(c(1920,1920), c(0,200000), type = "l", col="black", lwd=2, lty=2, xaxt="n", yaxt="n", xlab= "", ylab = "", xlim = c(1700,2050), ylim = c(0,200000))
+text(1920,21000, "Timestamp\nof this\nstudy", pos = 4, srt = 0, col = "black", cex=0.8)
+
+# ohne dem geht es
 par(new=T)
 plot(c(2020,2020), c(0,200000), type = "l", col="black", lwd=2, lty=2, xaxt="n", yaxt="n", xlab= "", ylab = "", xlim = c(1700,2050), ylim = c(0,200000))
 text(2020,0, "today", pos = 4, srt = 90)
 
 par(new=T)
-plot(data[,1], data[,4]*100, col=2, pch = 19, ylab="", xlab="year",cex=1.5,  xlim = c(1700,2050), xaxt="n", yaxt="n", ylim = c(0,20000)) # Settlement area by hectares
-axis(4, pretty(0:20000), col.axis=2, las=1)
+plot(data[,1], data[,4]*100, col="darkorange", pch = 19, ylab="", xlab="year",cex=1.5,  xlim = c(1700,2050), xaxt="n", yaxt="n", ylim = c(0,20000)) # Settlement area by hectares
+axis(4, pretty(0:20000), col.axis="darkorange", las=1)
 
-legend("topleft", c("Buildings by number", "Settlement area by hectares"), col=c(1,2), pch = 19)
+legend("topleft", c("Buildings by number", "Settlement area by hectares"), col=c("darkorchid","darkorange"), pch = 19)
+title(main = "Building counts and settlement areas for the city of Vienna", adj = 0)
+
+
 
 # figure labels. Code copied from https://www.r-bloggers.com/2017/03/adding-figure-labels-a-b-c-in-the-top-left-corner-of-the-plotting-region/
 par(xpd=NA)
@@ -222,11 +235,14 @@ text(x, y, txt, font = 2, cex=1.2)
 
 
 ####### Plot 2
+
+height = 160
+
 par(mar=c(5,5,2,5))
-dummy_data <- data.frame(seq(1700, 2050, by = 50), seq(0, 130, by = 130/7))
+dummy_data <- data.frame(seq(1700, 2050, by = 50), seq(0, height, by = height/7))
 plot(dummy_data, xlab="year", ylab = "", yaxt="n", col = "transparent")
 title(main = "Cartographic documents for the city of Vienna", adj = 0)
-lines(c(2020,2020), c(0,115), col="black", lwd=2, lty=2)
+lines(c(2020,2020), c(0,height-15), col="black", lwd=2, lty=2)
 text(2020,0, "today", pos = 4, srt = 90)
 
 ok <- 10 # Oberkante vom untersten Balken
@@ -247,64 +263,99 @@ rect(1975, ok+ab-hoehe, 2020, ok+ab, col = mycol2, border = mycol2)
 text(1817, ok+ab + 5, "Cadaster", col = "black", pos = 4, font = fn)
 
 # Luftbilder
-rect(1938, ok+ab+ab-hoehe, 2012, ok+ab+ab, col = mycol, border = mycol)
+rect(1920, ok+ab+ab-hoehe, 2012, ok+ab+ab, col = mycol, border = mycol)
 rect(2012, ok+ab+ab-hoehe, 2020, ok+ab+ab, col = mycol2, border = mycol2)
-text(1938, ok+ab+ab + 5, "Aerial photographs", col = "black", pos = 4, font = fn)
+text(1920, ok+ab+ab + 5, "Aerial photographs", col = "black", pos = 4, font = fn)
 
-# Building stock maps
-uk <- 60 # unterkante vom senkrechten balken
-text(1829, uk+hoehe + 5, "Building stock", col="black", pos = 4, font = fn)
 
-#1920 Stadkarte
-rect(1920, uk, 1921, uk+hoehe, col = mycol2, border = mycol2)
-text(1921, uk + 5, "Building stock\nmap 1920", col = "darkblue", pos = 4)
 
-#1920 Franzeisischer Kataster 1829 https://www.wien.gv.at/kulturportal/public/grafik.aspx?bookmark=EeNvRma8KkZmpYFEvioURBwZ9D0-b&lang=de&bmadr=
-rect(1829, uk, 1830, uk+hoehe, col = mycol2, border = mycol2)
-text(1829, uk + 5, "Franzeisischer\nKataster 1829", col = "darkblue", pos = 4)
-
-ab <- ab*1.5
 
 # Setttlement area maps
+uk <- 60 # unterkante vom senkrechten balken
 
-text(1704, uk+ab+hoehe + 5, "Settlement areas", col="black", pos = 4, font = fn)
+text(1700, uk+hoehe + 5, "Settlement areas", col="black", pos = 4, font = fn)
 
-rect(1912, uk+ab, 1913, uk+ab+hoehe, col = mycol2, border = mycol2)
-text(1912-2, uk+ab + 2, "1912", col = "darkblue", pos = 4)
+rect(1912, uk, 1913, uk+hoehe, col = mycol2, border = mycol2)
+text(1912-2, uk + 2, "1912", col = "darkblue", pos = 4, cex=0.8)
 
-rect(1875, uk+ab, 1876, uk+ab+hoehe, col = mycol2, border = mycol2)
-text(1875-2, uk+ab + 2, "1875", col = "darkblue", pos = 4)
+rect(1875, uk, 1876, uk+hoehe, col = mycol2, border = mycol2)
+text(1875-2, uk + 2, "1875", col = "darkblue", pos = 4, cex=0.8)
 
-rect(1825, uk+ab, 1826, uk+ab+hoehe, col = mycol2, border = mycol2)
-text(1825-2, uk+ab + 2, "1825", col = "darkblue", pos = 4)
+rect(1825, uk, 1826, uk+hoehe, col = mycol2, border = mycol2)
+text(1825-2, uk + 2, "1825", col = "darkblue", pos = 4, cex=0.8)
 
-rect(1780, uk+ab, 1781, uk+ab+hoehe, col = mycol2, border = mycol2)
-text(1780-2, uk+ab + 2, "1780", col = "darkblue", pos = 4)
+rect(1780, uk, 1781, uk+hoehe, col = mycol2, border = mycol2)
+text(1780-2, uk + 2, "1780", col = "darkblue", pos = 4, cex=0.8)
 
-rect(1755, uk+ab, 1756, uk+ab+hoehe, col = mycol2, border = mycol2)
-text(1755-2, uk+ab + 2, "1755", col = "darkblue", pos = 4)
+rect(1755, uk, 1756, uk+hoehe, col = mycol2, border = mycol2)
+text(1755-2, uk + 2, "1755", col = "darkblue", pos = 4, cex=0.8)
 
-rect(1704, uk+ab, 1705, uk+ab+hoehe, col = mycol2, border = mycol2)
-text(1704-2, uk+ab + 2, "1704", col = "darkblue", pos = 4)
+rect(1704, uk, 1705, uk+hoehe, col = mycol2, border = mycol)
+text(1704-2, uk + 2, "1704", col = "darkblue", pos = 4, cex=0.8)
+
+
+
+# Building stock maps
+ab <- ab*1.75
+
+text(1700, uk+ab+hoehe + 5, "Building stocks", col="black", pos = 4, font = fn)
+
+#1920 Franzeisischer Kataster 1829 https://www.wien.gv.at/kulturportal/public/grafik.aspx?bookmark=EeNvRma8KkZmpYFEvioURBwZ9D0-b&lang=de&bmadr=
+rect(1829, uk+ab, 1830, uk+ab+hoehe, col = mycol2, border = mycol2)
+text(1829, uk+ab + 5, "Franzeisischer\nKataster 1829", col = "darkblue", pos = 4, cex=0.8)
+
+
+#1920 Stadkarte
+rect(1921, uk+ab, 1922, uk+ab+hoehe, col = "black", border = "black")
+text(1921, uk+ab + 5, "this\nstudy", col = "black", pos = 4, cex=0.8, font = fn)
+
+
+
+
+
+
+
+# Building age data
+text(1700, uk+ab+ab+hoehe+5, "Building age data", col="black", pos = 4, font = fn)
+text(1700, uk+ab+ab + 8, "(see Online-only Table 1)", cex= 0.8, col = "black", pos = 4, font = fn)
+
+rect(1904, uk+ab+ab, 1905, uk+ab+ab+hoehe, col = mycol, border = mycol)
+
+
+rect(1912, uk+ab+ab, 1913, uk+ab+ab+hoehe, col = mycol, border = mycol)
+#text(1904-2, uk+ab+ab + 2, "1904", col = "darkgreen", pos = 4)
+
+rect(1920, uk+ab+ab, 1921, uk+ab+ab+hoehe, col = mycol, border = mycol)
+#text(1904-2, uk+ab+ab + 2, "1904", col = "darkgreen", pos = 4)
+
+rect(1955, uk+ab+ab, 1958, uk+ab+ab+hoehe, col = mycol, border = mycol)
+#text(1904-2, uk+ab+ab + 2, "1904", col = "darkgreen", pos = 4)
+
+rect(1997, uk+ab+ab, 2020, uk+ab+ab+hoehe, col = mycol2, border = mycol2)
+#text(1904-2, uk+ab+ab + 2, "1904", col = "darkgreen", pos = 4)
+
+rect(1921, uk+ab+ab, 1922, uk+ab+ab+hoehe, col = "black", border = "black")
+text(1921, uk+ab+ab + 5, "this\nstudy", col = "black", pos = 4, cex=0.8, font = fn)
+
 
 # Hintergrundblöcke
 rect(1700, 0, 2050, 50, col = mycol3, border = mycol3)
 text(1700, 50-5, "Topographic documents", col = "grey25", pos = 4, font = 2)
 
-rect(1700, 55, 2050, 115, col = mycol3, border = mycol3)
-text(1700, 110, "City-wide mapping of historical information", col = "grey25", pos = 4, font = 2)
+rect(1700, 55, 2050, height-15, col = mycol3, border = mycol3)
+text(1700, height-20, "City-wide mapping of historical information", col = "grey25", pos = 4, font = 2)
 
 
 #Legende
 
 x = 1760
-y = 130
+y = height
 
 rect(x, y-hoehe, x+30, y, col = mycol, border = mycol)
 rect(x+30, y-hoehe, x+60, y, col = mycol2, border = mycol2)
 
-text(x+15, y, "analog", col = "black", pos = 1)
-text(x+45, y, "digital", col = "black", pos = 1)
+text(x+15, y+2.5, "analog", col = "black", pos = 1)
+text(x+45, y+2.5, "digital", col = "black", pos = 1)
 text(1700, y-5, "Data format", col = "black", pos = 4)
 
 
@@ -446,7 +497,8 @@ area_district_adapt_plot <- ggplot(data=area_district_adapt, aes(x=UD, y=sum_are
   scale_x_continuous("Urban district", labels = c(1:23), breaks = c(1:23))+
   geom_text(aes(label=Area.label), hjust=-0.3, vjust= 0.25, position = position_dodge(1), size=3, angle=90)+
   ylim(c(0,200))+
-  labs(fill = "Reference year\nof urban district\ndistribution")
+  labs(fill = "Reference year\nof urban district\ndistribution")+
+  scale_fill_brewer(palette="Paired")
 area_district_adapt_plot 
 
 
@@ -469,10 +521,10 @@ test <- nrow(wien1920) - length(c(pos_1,pos_2,pos_3,pos_4,pos_5,pos_6, pos_7))
 
 wien1920$Polygon.source_name <- rep("", nrow(wien1920))
 
-wien1920[pos_1, "Polygon.source_name"] <- "Historic urban district map"
-wien1920[pos_2, "Polygon.source_name"] <- "Historic cadaster"
+wien1920[pos_1, "Polygon.source_name"] <- "Historical urban district map"
+wien1920[pos_2, "Polygon.source_name"] <- "Historical cadaster"
 wien1920[pos_3, "Polygon.source_name"] <- "Analog building age map 1920"
-wien1920[pos_4, "Polygon.source_name"] <- "Historic fire brigade map"
+wien1920[pos_4, "Polygon.source_name"] <- "Historical fire brigade map"
 wien1920[pos_5, "Polygon.source_name"] <- "City map 2018"
 wien1920[pos_6, "Polygon.source_name"] <- "City map 2018"
 wien1920[pos_7, "Polygon.source_name"] <- "Analog building age map 1920\n(digital raw data)"
@@ -570,7 +622,7 @@ temp_presence_district_plot <- ggplot(temp_presence_district, aes(fill=TP_pub.da
   ylab("Area [hectares]") +
   scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
   geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+   labs(fill = "Temporal\npresence\nconfirmed")+
-  scale_fill_brewer(palette="Set1")
+  scale_fill_brewer(palette="YlGn")
   
 temp_presence_district_plot
 
@@ -829,7 +881,7 @@ PoC_data_plot <- ggplot(PoC_data, aes(x=UD.2020, y= sum_area, fill = PoC.source_
   scale_x_continuous("Urban district 2020", labels = c(1:23), breaks = c(1:23))+
   geom_text(data=totals, aes(x=UD.2020, label=total, y=total, fill=NULL), nudge_y=5, size = 3)+
   labs(fill = "Data source")+
-  scale_fill_brewer(palette="Set1")
+  scale_fill_brewer(palette="Accent")
 PoC_data_plot
 
 PoC_data_summary <- PoC_data %>%
@@ -1566,44 +1618,44 @@ ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = 
 ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = columns * 9 , height = rows*5)
 
 
-# Plot figure 07
-columns = 1
-rows = 4
-  
-figure_out_1 <- ggarrange(area_district_adapt_plot, poly_source_plot, area_ud2020_editor_plot, temp_presence_district_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 07.png", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
-ggsave(paste(dir_output, "Figure 07.pdf", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
-
-
 # Plot figure 08
 columns = 1
 rows = 4
   
+figure_out_1 <- ggarrange(area_district_adapt_plot, poly_source_plot, area_ud2020_editor_plot, temp_presence_district_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
+ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
+
+
+# Plot figure 09
+columns = 1
+rows = 4
+  
 figure_out_2 <- ggarrange(bp_plot, PoC_data_plot, data_location.city_limits_plot, data_location.amap_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
-ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
-
-# Plot Figure 09
-
-ggsave(paste(dir_output, "Figure 09.png", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
-
-ggsave(paste(dir_output, "Figure 09.pdf", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
+ggsave(paste(dir_output, "Figure 09.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 09.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
 
 # Plot Figure 10
-ggsave(paste(dir_output, "Figure 10.png", sep = ""), plot = p, width = 9 , height = 5)
-ggsave(paste(dir_output, "Figure 10.pdf", sep = ""), plot = p, width = 9 , height = 5)
+
+ggsave(paste(dir_output, "Figure 10.png", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
+
+ggsave(paste(dir_output, "Figure 10.pdf", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
 
 # Plot Figure 11
+ggsave(paste(dir_output, "Figure 11.png", sep = ""), plot = p, width = 9 , height = 5)
+ggsave(paste(dir_output, "Figure 11.pdf", sep = ""), plot = p, width = 9 , height = 5)
+
+# Plot Figure 12
 columns = 1
 rows = 2
   
 figure_loc <- ggarrange(location_confirm_plot, location_overview_analysis_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 11.png", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 12.png", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
 
-ggsave(paste(dir_output, "Figure 11.pdf", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 12.pdf", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
 
 
-# Plot Figure 12
+# Plot Figure 13
 
 
 columns = 1
@@ -1611,7 +1663,7 @@ rows = 4
   
 figure_12 <- ggarrange(BSM_1920_bc_final_plot, Ratio_CD.bs_data_plot, CD.bs_fit_source_plot, CD.bs_fit_data_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
 
-ggsave(paste(dir_output, "Figure 12.png", sep = ""), plot = figure_12, width = columns *9 , height = rows* 4)
-ggsave(paste(dir_output, "Figure 12.pdf", sep = ""), plot = figure_12, width = columns * 9 , height = rows* 4)
+ggsave(paste(dir_output, "Figure 13.png", sep = ""), plot = figure_12, width = columns *9 , height = rows* 4)
+ggsave(paste(dir_output, "Figure 13.pdf", sep = ""), plot = figure_12, width = columns * 9 , height = rows* 4)
 
 ```

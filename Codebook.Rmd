@@ -246,11 +246,11 @@ include_graphics(paste(dir_github, "Figures/Codebook_figure_FF.png", sep = ""))
 
 
 
-* "FW" stands for "Feuerwehrplan" (in German). It is an historic fire brigade map sheet, which we used to vectorize building footprints. The cadastral maps sheets are available in TIFF format and can be retrieved from [Federal Office of Metrology and Surveying (BEV)](https://www.bev.gv.at).
+* "FW" stands for "Feuerwehrplan" (in German). It is an historical fire brigade map sheet, which we used to vectorize building footprints. The cadastral maps sheets are available in TIFF format and can be retrieved from [Federal Office of Metrology and Surveying (BEV)](https://www.bev.gv.at).
 
 * "MA" stands for "Magistratratsabteilung" (in German). It is the city authority - department 41, who provided the polygon-features. The polygon-features can be retrieved from [Open Data Österreich](https://www.data.gv.at/katalog/dataset/7cf0da04-1f77-4321-929e-78172c74aa0b).
-* "BE" stands for "Bezirksplan" (in German). It covers historic urban district maps. The urban district maps  are available in TIFF format and can be retrieved from [Municipal and Provincial Archives of Vienna ](https://www.wien.gv.at/kultur/archiv).
-* "BA" stands for "Baualterskarte" (in German). It is the [analog building age map 1920](https://www.geschichtewiki.wien.gv.at/Baualter_1920). It covers historic urban district maps. The urban district maps  are available in TIFF format and can be retrieved from [Municipal and Provincial Archives of Vienna ](https://www.wien.gv.at/kultur/archiv).
+* "BE" stands for "Bezirksplan" (in German). It covers historical urban district maps. The urban district maps  are available in TIFF format and can be retrieved from [Municipal and Provincial Archives of Vienna ](https://www.wien.gv.at/kultur/archiv).
+* "BA" stands for "Baualterskarte" (in German). It is the [analog building age map 1920](https://www.geschichtewiki.wien.gv.at/Baualter_1920). It covers historical urban district maps. The urban district maps  are available in TIFF format and can be retrieved from [Municipal and Provincial Archives of Vienna ](https://www.wien.gv.at/kultur/archiv).
 
 ###	Polygon.source_name
 This field groups the "Polygon.source_id" records by the type of the cartographic document into: `r unique(dataset_final$Polygon.source_name)`.
