@@ -123,7 +123,7 @@ BS_1920s <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet
 ################
 
 
-wien1920_complete <- read.csv(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table.csv", sep = ""), sep = ";", stringsAsFactors = F)
+wien1920_complete <- read.csv(paste(dir_zenodo, "Building age map around 1920/BSM_1920_attribute_table.csv", sep = ""), sep = ";", stringsAsFactors = F)
 
 # Use only primary data fields
 col_import <- DD_OOT_2[which(DD_OOT_2$Stage == 1), "Data_field"]
