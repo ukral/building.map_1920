@@ -1552,13 +1552,13 @@ data$label <- paste0(round(data$fraction*100, digits=0), "%")
 # Make the plot
 CD.bs_fit_data_excl_salz_donut_plot <- ggplot(data, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill= category)) +
   geom_rect() +
-  ggtitle("Fitting of 'CD.bs' within 'PoC'") +
+  ggtitle("Fit of 'CD.bs' within 'PoC'") +
   geom_label( x=3.5, aes(y=labelPosition, label=label), size=4) +
   coord_polar(theta="y") +
   xlim(c(2, 4)) +
   theme_void() +
   theme(legend.position = "right")+
-  labs(fill = "Fitting")+
+  labs(fill = "Fit")+
   scale_fill_brewer(palette="Set3")
 CD.bs_fit_data_excl_salz_donut_plot
 

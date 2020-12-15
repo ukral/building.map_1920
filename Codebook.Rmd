@@ -180,7 +180,7 @@ This field includes a unique identifier for the polygon-feature.
 This field specifies the area of the polygon-feature in squared meter.
 
 
-# Building stock and age 1920
+# Building age map around 1920
 
 ## Introduction
 This Codebook chapter refers to the geospatial dataset "Building stock and age 1920", briefly called BSM_1920. The geographical coverage is defined by the city limits of 2020 (see Figure \@ref(fig:overview)). It is noted that the settlement area in the western part of the city (see orange coloured areas in the figure on the left) has been excluded because of data availability. The area out of scope represents about 1.3% of the total settlement area at this time.
