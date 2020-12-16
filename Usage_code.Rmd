@@ -300,9 +300,9 @@ ab <- ab*1.75
 
 text(1700, uk+ab+hoehe + 5, "Building stocks", col="black", pos = 4, font = fn)
 
-#1920 Franzeisischer Kataster 1829 https://www.wien.gv.at/kulturportal/public/grafik.aspx?bookmark=EeNvRma8KkZmpYFEvioURBwZ9D0-b&lang=de&bmadr=
+#1920 Franziszeischer Kataster 1829 https://www.wien.gv.at/kulturportal/public/grafik.aspx?bookmark=EeNvRma8KkZmpYFEvioURBwZ9D0-b&lang=de&bmadr=
 rect(1829, uk+ab, 1830, uk+ab+hoehe, col = mycol2, border = mycol2)
-text(1829, uk+ab + 5, "Franzeisischer\nKataster 1829", col = "darkblue", pos = 4, cex=0.8)
+text(1829, uk+ab + 5, "Franziszeischer\nKataster 1829", col = "darkblue", pos = 4, cex=0.8)
 
 
 #1920 Stadkarte
