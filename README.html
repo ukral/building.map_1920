@@ -421,7 +421,7 @@ summary {
 <li><strong><a href="https://www.doi.org/10.5281/zenodo.3715200">Building age map, Vienna, around 1920</a></strong></li>
 </ul>
 <ol style="list-style-type: decimal">
-<li>Building stock map and footprints 1920 (BSM_1920.shp) and its attribute table (BSM_1920_attribute_table.csv)</li>
+<li>Building stock map 1920 (BSM_1920.shp) and its attribute table (BSM_1920_attribute_table.csv)</li>
 <li>Areas out of scope 1920 (AOOS_1920.shp)</li>
 <li>Scope of analog building age map 1920 (SABAM_1920.shp)</li>
 </ol>
@@ -435,8 +435,8 @@ summary {
 </ol>
 <p><strong>This GitHub repository provides</strong> supplementary material as followed.</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Codebook</strong>. The Codebook specifies the data format, the data fields and comments on the data fields of the datasets BSM_1920.shp and the attribute table BSM_1920_attribute_table.csv, CB_1920.shp and UDB_1920.shp. The Codebook also includes an interactive map with the location and geographical scope of the study area. The Codebook is available in a <a href="https://rpubs.com/ukral/699029">readable online version</a> for end-users as well as <a href="Codebook.Rmd">R-Code</a> for those who want to use and re-use the Codebook.</p></li>
-<li><p><strong>Usage code</strong>. The usage code supplements the aforementioned Data Descriptor and enables the reproduction of figures and data.</p></li>
+<li><p><strong>Codebook</strong>. The Codebook specifies the data format, the data fields and comments on the data fields of the datasets BSM_1920.shp and the attribute table BSM_1920_attribute_table.csv, CB_1920.shp and UDB_1920.shp. The Codebook also includes an interactive map with the location and geographical scope of the study area. The Codebook is available in a <a href="https://rpubs.com/ukral/699029">readable online version</a> for end-users as well as <a href="Codebook.Rmd">R Markdown file</a> for those who want to use and re-use the Codebook.</p></li>
+<li><p><strong>Usage code</strong>. The <a href="Usage_code.Rmd">R Markdown file</a> supplements the aforementioned Data Descriptor and enables the reproduction of figures and data.</p></li>
 <li><p><strong>Background data</strong>. The file <a href="Background_data.xlsx">Background_data.xlsx</a> is a compilation of tables and datasets from various sources. The sheet “Content page” provides and overview, descriptions and references for the included data</p></li>
 </ol>
 <p><strong>Instruction to execute the R Markdown files</strong></p>
@@ -446,7 +446,7 @@ summary {
 <li>Download the data repositories <a href="https://www.doi.org/10.5281/zenodo.3715200">Building age map, Vienna, around 1920</a> and <a href="https://doi.org/10.5281/zenodo.4323010">Administrative boundaries, Vienna, various timestamps</a>, unpack the sub-directories and save them to a local directory on your desktop (e.g. ../building.map_1920/02_Zenodo/).</li>
 <li>Download the GitHub repository and save the files to a local directory on your desktop (e.g. ../building_map/01_Github/). Alternatively, you can connect R Studio to GitHub (<a href="https://happygitwithr.com/rstudio-git-github.html">instructions</a>).</li>
 <li>Open R-Studio and load the R project file “building.map_1920.Rproj” from from your local directory (e.g. ../building.map_1920/01_Github/).</li>
-<li>Create a new directory to cover the output files (e.g. ../building.map_1920/03_Output/)</li>
+<li>Create a new directory to save the output files (e.g. ../building.map_1920/03_Output/)</li>
 <li>Specify the path name of your local directory in the chunk “specify_inputs” of the R Markdown files “Codebook.Rmd” and “Usage_code.Rmd”.</li>
 <li>Execute the R Markdown files in R-Studio.</li>
 <li>The R Markdown files can be fed to <a href="https://bookdown.org/">bookdown</a> to generate a readable HTML file.</li>
