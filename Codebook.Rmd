@@ -1,6 +1,5 @@
 ---
 title: "Codebook"
-author: "Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)"
 keywords: "Vienna, building stock, age, building periods, 1920"
 output:
    bookdown::html_document2:
@@ -48,9 +47,9 @@ dir_github = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/01_Github/"
 dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/02_Zenodo/"
 ######################################################################################
 
-BSM_1920 <- st_read(paste(dir_zenodo, "Building stock and age 1920/BSM_1920.shp", sep = ""), quiet = T)
+BSM_1920 <- st_read(paste(dir_zenodo, "Building age map around 1920/BSM_1920.shp", sep = ""), quiet = T)
 
-dataset_final <- read.csv(paste(dir_zenodo, "Building stock and age 1920/BSM_1920_attribute_table.csv", sep = ""), sep = ";")
+dataset_final <- read.csv(paste(dir_zenodo, "Building age map around 1920/BSM_1920_attribute_table.csv", sep = ""), sep = ";")
 
 CB_2020 <- st_read(paste(dir_zenodo, "City boundary 2020/CB_2020.shp", sep = ""), quiet = T)
 
@@ -76,7 +75,7 @@ CB_SABAM_1920_AT <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""
 
 
 # Preface {-}
-This Codebook corresponds with a Data Descriptor, which is currently under review at [Nature Scientific Data](https://www.nature.com/sdata/). Once the Data Descriptor is accepted for publishing, the corresponding datasets will be accessible and can be used and re-used.
+This Codebook is currently under double-blind peer-review. Once the corresponding manuscript becomes accepted for publishing, we add the author names and affiliation to this dataset, the grant information as well as the link to the corresponding article. We encourage users to wait until the review process has been completed.
 
 # Indroduction {-}
 **This Codebook**
@@ -341,9 +340,6 @@ The data record are interpreted as followed:
 * "after": The construction year "CD.bs" is after the end year of the period of construction "PoC".
 * "ambiguous": The "CD.bs" records include multiple years, which are within two distinctive periods of construction "PoC". So, the "CD.bs" record cannot be assigned to a single period.
 * "No 'CD.bs' record": The polygon-feature has no "CD.bs" record.
-
-# Acknowledgements {-}
-This research received funding from the [Austrian Science Fund (FWF)](https://www.fwf.ac.at/de/): I 3148-G29 and the [Austrian Research Promotion Agency (FFG)](https://www.ffg.at/): 876258.
 
 # Competing interests {-}
 The authors declare no competing interests.

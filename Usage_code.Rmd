@@ -1,6 +1,5 @@
 ---
 title: "Usage code"
-author: "Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)"
 
 output:
    bookdown::html_document2:
@@ -17,7 +16,7 @@ div#TOC li {
 </style>
 
 # Preface {-}
-This usage code corresponds with a Data Descriptor, which is currently under review at [Nature Scientific Data](https://www.nature.com/sdata/). Once the Data Descriptor is accepted for publishing, the corresponding datasets will be accessible and can be used and re-used.
+This usage code is currently under double-blind peer-review. Once the corresponding manuscript becomes accepted for publishing, we add the author names and affiliation to this dataset, the grant information as well as the link to the corresponding article. We encourage users to wait until the review process has been completed.
 
 # Indroduction {-}
 **This usage code**
@@ -1072,7 +1071,7 @@ data <- rbind(data.stat, data.map, data.stat2)
 data_legend <- as.character(unique(data$data_source))
 BSM_1920_bc <- data
 
-p <- ggplot(data, aes(fill=factor(data_source, levels = data_legend), y=counts, x=UD.1920s)) + 
+building_counts <- ggplot(data, aes(fill=factor(data_source, levels = data_legend), y=counts, x=UD.1920s)) + 
     geom_bar(position="dodge", stat="identity") +
     ggtitle("Constrasting building counts") + 
     scale_x_continuous("Urban district 1920", labels = c(1:21), breaks = c(1:21)) +
@@ -1081,7 +1080,7 @@ p <- ggplot(data, aes(fill=factor(data_source, levels = data_legend), y=counts, 
     scale_fill_manual(name = "Data source",labels = data_legend, values=c('black','grey50','grey60','grey70','red')) +
     theme(legend.position = c(0.01,0.99), legend.justification = c("left", "top"), legend.title=element_text(size=10))+
     theme(legend.text = element_text(size = 8), legend.key.size = unit(1,"line"))
-p
+building_counts
 
 # Building counts in entire Vienna
 data_map_stat <- data.map %>%
@@ -1581,11 +1580,6 @@ data_summary <- data %>%
 * Summary: This table is based on data entries that have "PoC" and "CD.bs" records. In other words, blank "CD.bs" records are excluded. The building footprint area is  `r round(sum(CD.bs_fit_data_red_summary$sum_area), digits=0)` ha, which is `r round(sum(CD.bs_fit_data_red_summary$sum_area)/sum(wien1920$Area.ha)*100, digits=0)`% of the total area. `r CD.bs_fit_data_red_summary %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
 
-
-
-# Acknowledgements {-}
-This research received funding from the [Austrian Science Fund (FWF)](https://www.fwf.ac.at/de/): I 3148-G29 and the [Austrian Research Promotion Agency (FFG)](https://www.ffg.at/): 876258.
-
 # Competing interests {-}
 The authors declare no competing interests.
 
@@ -1618,52 +1612,59 @@ ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = 
 ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = columns * 9 , height = rows*5)
 
 
-# Plot figure 08
+# Plot figure 06
 columns = 1
 rows = 4
   
 figure_out_1 <- ggarrange(area_district_adapt_plot, poly_source_plot, area_ud2020_editor_plot, temp_presence_district_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
-ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 06.png", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 06.pdf", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
 
 
-# Plot figure 09
+# Plot figure 07
 columns = 1
 rows = 4
   
 figure_out_2 <- ggarrange(bp_plot, PoC_data_plot, data_location.city_limits_plot, data_location.amap_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 09.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
-ggsave(paste(dir_output, "Figure 09.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 07.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 07.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
 
-# Plot Figure 10
+# Plot Figure 08
 
-ggsave(paste(dir_output, "Figure 10.png", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
+columns = 1
+rows = 2
 
-ggsave(paste(dir_output, "Figure 10.pdf", sep = ""), plot = plaus_dist_area_plot, width = 9 , height = 4)
+figure_out_3 <- ggarrange(plaus_dist_area_plot, building_counts, align = "v", ncol = columns, nrow = rows, labels = "auto")
+
+ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_3, width = 9 , height = 4)
+
+ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_3, width = 9 , height = 4)
+
+
 
 # Plot Figure 11
-ggsave(paste(dir_output, "Figure 11.png", sep = ""), plot = p, width = 9 , height = 5)
-ggsave(paste(dir_output, "Figure 11.pdf", sep = ""), plot = p, width = 9 , height = 5)
+#ggsave(paste(dir_output, "Figure 11.png", sep = ""), plot = p, width = 9 , height = 5)
+#ggsave(paste(dir_output, "Figure 11.pdf", sep = ""), plot = p, width = 9 , height = 5)
 
-# Plot Figure 12
+# Plot Figure 09
 columns = 1
 rows = 2
   
 figure_loc <- ggarrange(location_confirm_plot, location_overview_analysis_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 12.png", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 09.png", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
 
-ggsave(paste(dir_output, "Figure 12.pdf", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 09.pdf", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
 
 
-# Plot Figure 13
+# Plot Figure 10
 
 
 columns = 1
 rows = 4
   
-figure_12 <- ggarrange(BSM_1920_bc_final_plot, Ratio_CD.bs_data_plot, CD.bs_fit_source_plot, CD.bs_fit_data_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
+figure_10 <- ggarrange(BSM_1920_bc_final_plot, Ratio_CD.bs_data_plot, CD.bs_fit_source_plot, CD.bs_fit_data_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
 
-ggsave(paste(dir_output, "Figure 13.png", sep = ""), plot = figure_12, width = columns *9 , height = rows* 4)
-ggsave(paste(dir_output, "Figure 13.pdf", sep = ""), plot = figure_12, width = columns * 9 , height = rows* 4)
+ggsave(paste(dir_output, "Figure 10.png", sep = ""), plot = figure_10, width = columns *9 , height = rows* 4)
+ggsave(paste(dir_output, "Figure 10.pdf", sep = ""), plot = figure_10, width = columns * 9 , height = rows* 4)
 
 ```

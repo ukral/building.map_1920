@@ -1,7 +1,8 @@
 # "building.map_1920"
-Authors: [Ulrich Kral](https://orcid.org/0000-0002-2848-1673) and [Ferdinand Reimer](https://orcid.org/0000-0003-2515-4332)
 
-**This GitHub repository refers** to the data repositories [Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200) and [Administrative boundaries, Vienna, various timestamps](https://doi.org/10.5281/zenodo.4323010). It is noted that the access to the data repositories is currently restricted, because a corresponding Data Descriptor is currently under review at [Nature Scientific Data](https://www.nature.com/sdata/). Once the Data Descriptor is published, there will be an open access and the following files can be used and re-used.
+**Release notes:** This repository is currently under double-blind peer-review. Once the corresponding manuscript becomes accepted for publishing, we add the author names and affiliation to this dataset, the grant information as well as the link to the corresponding article. We encourage users to wait until the review process has been completed.
+
+**This GitHub repository refers** to the data repositories [Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200) and [Administrative boundaries, Vienna, various timestamps](https://doi.org/10.5281/zenodo.4323010).
 
 * **[Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200)**
 
