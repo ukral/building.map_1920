@@ -16,13 +16,12 @@ div#TOC li {
 </style>
 
 # Preface {-}
-This usage code is currently under double-blind peer-review. Once the corresponding manuscript becomes accepted for publishing, we add the author names and affiliation to this dataset, the grant information as well as the link to the corresponding article. We encourage users to wait until the review process has been completed.
 
 **This usage code**
 
 * **is part** of the GitHub repository [building.map_1920](https://github.com/ukral/building.map_1920). Check out the [readme file](https://github.com/ukral/building.map_1920/blob/main/README.md) to learn more about the corresponding datasets and how to use and re-use the underlying R Markdown file.
 
-* **supplements** the aforementioned paper and enables the reproduction of figures and data. 
+* **supplements** the paper "Data description of 'Building age map of Vienna and its surroundings around 1920'”, which is currently under review in [Data in Brief](https://www.journals.elsevier.com/data-in-brief).
 
 * **is for users** of the datasets who want to use and re-use the datasets.
 
@@ -74,19 +73,19 @@ rm(list=ls())
 #####################################################################################
 
 # specify local directory that includes the files from the Zenodo repository https://www.doi.org/10.5281/zenodo.3715200 
-dir_zenodo = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/02_Zenodo/"
+dir_zenodo = "C:/Users/U/Documents/03_TU Wien/building.map_1920/02_Zenodo/"
 
 #####################################################################################
 
 # specify local directory that includes the files from the GitHub repository https://github.com/ukral/building.map_1920
 
-dir_github = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/01_Github/"
+dir_github = "C:/Users/U/Documents/03_TU Wien/building.map_1920/01_Github/building.map_1920/"
 
 #####################################################################################
 
 # specify local directory that covers the output files
 
-dir_output = "C:/Users/u.kral/ownCloud/03_TU Wien/building.map_1920/03_Output/"
+dir_output = "C:/Users/U/Documents/03_TU Wien/building.map_1920/03_Output/"
 
 ######################################################################################
 
@@ -103,8 +102,6 @@ BUA_1912_statistic_raw <- read_xlsx(paste(dir_github, "Background_data.xlsx", se
 
 BUA_1912_statistic <- BUA_1912_statistic_raw[,c("Zeitschnitt","gesamt")]
 colnames(BUA_1912_statistic) <- c("year", "Area")
-
-UD_AREA_1920_statistic <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "UD_AREA_1920_statistic", col_names =  TRUE, range = "A3:B24")
 
 BC_statistic <- read_xlsx(paste(dir_github, "Background_data.xlsx", sep = ""), sheet = "BC_statistic", col_names =  TRUE, col_types = rep("numeric", times = 6), range = "A3:F24")
 
@@ -130,9 +127,9 @@ wien1920 <- wien1920_complete[, col_import$Data_field]
 
 wien1920$Area.ha <- wien1920$Area*10^-4
 
-CB_1920 <- st_read(paste(dir_zenodo, "City boundary 1920/CB_1920.shp", sep = ""), quiet = T)
+CB_1920 <- st_read(paste(dir_zenodo, "City boundary 1920/Version_1/CB_1920.shp", sep = ""), quiet = T)
 
-UDB_1920 <- st_read(paste(dir_zenodo, "Urban district boundaries 1920/UDB_1920.shp", sep = ""), quiet = T)
+UDB_1920 <- st_read(paste(dir_zenodo, "Urban district boundaries 1920/Version_1/UDB_1920.shp", sep = ""), quiet = T)
 
 SABAM_1920 <- st_read(paste(dir_zenodo, "Scope of analog building age map 1920/SABAM_1920.shp", sep = ""), quiet = T)
 
@@ -140,7 +137,7 @@ SABAM_1920 <- st_read(paste(dir_zenodo, "Scope of analog building age map 1920/S
 
 
 ```
-# Introduction
+# Introduction figures
 
 ```{r, echo = FALSE}
 # This chunk generates Figure 1
@@ -376,18 +373,12 @@ Figure_1()
 
 ```
 
-# Material and methods
-## Framework
-No computations for paper.
 
-## Data sources
-No computations for paper.
+# Scales of analog map sheets
 
-## Data processing
-### Mapping boundaries
-No computations for paper.
+Scales of building stock maps, which were used to retrieve the building footprints: `r unique(wien1920$Polygon.source.Scale)`. Note: NA stands for "not available", because the digitial city map is vectorized and therefore doesn't have a scale.
 
-### Mapping the building stock and its age in the year 1920
+# Addresss changes
 
 ```{r, echo = FALSE}
 
@@ -435,28 +426,9 @@ colnames(adr_changes) <- c("address change", "affected polygons", "ratio [%]")
 
 ```
 
-* Scales of building stock maps, which were used to retrieve the building footprints: `r unique(wien1920$Polygon.source.Scale)`. Note: NA stands for "not available", because the digitial city map is vectorized and therefore doesn't have a scale.
-* Address changes between 'Address.2019' and 'Address.1920'. Scope: 'Address_review' = yes `r adr_changes %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
+Address changes between 'Address.2019' and 'Address.1920'. Scope: 'Address_review' = yes `r adr_changes %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
-## Results
-
-### Boundary maps
-```{r, echo = FALSE}
-
-CB_1920_area <- st_area(CB_1920)
-UDB_1920_area <- sum(st_area(UDB_1920))
-SABAM_1920_area <- st_area(SABAM_1920)
-
-boundary_area <- data.frame(c("CB_1920","UDB_1920","SABAM_1920"),c(CB_1920_area,UDB_1920_area,SABAM_1920_area))
-colnames(boundary_area) <- c("Dataset", "Area")
-
-```
-
-
-* Total area of polygon-features by dataset `r boundary_area %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
-
-### Building stock map and its age 1920
-#### Area of building footprints
+# Area of building footprints
 The “Area” records are summarized by “UD.1920” and “UD.2020”, respectively, and plotted in the next figure.
 
 ```{r, echo = FALSE}
@@ -504,7 +476,7 @@ area_district_adapt_plot
 ```
 
 
-#### Data sources to retrieve building footprints
+# Data sources to retrieve building footprints
 The “Polygon.source_name” records were grouped by “UD.2020”, summarized by “Area” and plotted in the next figure.
 
 ```{r, echo = FALSE}
@@ -556,7 +528,7 @@ number_map_sheets <- length(unique(wien1920[c(pos_1,pos_2,pos_3,pos_4),"Polygon.
 * Number of unique maps sheets: `r number_map_sheets`. Retrieved from `r unique(wien1920$Polygon.source_name)`.
 * Number of unique timestamps: `r length(unique(wien1920$TP_pub.date_year))`.
 
-#### Editors of vectorized building footprints
+# Editors of vectorized building footprints
 The “Editor” records were grouped by “UD.2020”, summarized by “Area” and plotted in the next figure.
 
 ```{r, echo = FALSE}
@@ -585,7 +557,7 @@ area_ud2020_editor_plot
 
 * Number of unique editors: `r length(unique(wien1920$Editor))`.
 
-#### Temporal presence of building footprints
+# Temporal presence of building footprints
 The “TP_pub.date_period” records were grouped by “UD.2020”, summarized by “Area” and plotted in the next figure.
 
 ```{r, echo = FALSE}
@@ -640,7 +612,7 @@ presence_summary <- temp_presence_district %>%
 * City-wide data grouped into 3 periods. `r presence_summary %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
 
-#### Period of constrution
+# Period of constrution
 The “PoC” records were grouped by two different types of timespan, summarized by “Area” and plotted in the next figure.
 
 ```{r, echo = FALSE}
@@ -857,7 +829,7 @@ bp_summary <- bp %>%
 * Number of construction date assignments. `r CD_multiple_data %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
 
-#### Data sources to retrieve building construction dates
+# Data sources to retrieve building construction dates
 The “PoC.source_name” records were grouped by “UD.2020”, summarized by “Area” and plotted in the next figure.
 
 ```{r, echo = FALSE}
@@ -902,7 +874,7 @@ PoC_data_summary <- PoC_data %>%
 
 
 
-#### Location of building footprints within city limits 1920
+# Location of building footprints within city limits 1920
 The “Location.city_limits_1920” records were grouped by “UD.2020”, summarized by “Area” and plotted in the next figure.
 
 ```{r, echo = FALSE}
@@ -938,7 +910,7 @@ data_location.city_limits_summary <- data_location.city_limits %>%
 
 
 
-#### Location of building footprints within scope of analog building age map 1920
+# Location of building footprints within scope of analog building age map 1920
 The “Location.ABAM_1920” records were grouped by “UD.2020”, summarized by “Area” and plotted in the next figure.
 
 ```{r, echo = FALSE}
@@ -973,70 +945,7 @@ data_location.amap_summary <- data_location.amap %>%
 
 * City-wide data: `r data_location.amap_summary %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
-# Discussion
-## Content-related plausibility check by external data sources
-### City area 1920
-
-```{r, echo = FALSE}
-area_polygon <- as.numeric(st_area(CB_1920))*10^-4 # in ha
-area_statistic <- sum(UD_AREA_1920_statistic$Gesamtgrundfläche) # in ha
-
-```
-
-* Difference between CB_1920 and SY_1929: `r abs(round(area_polygon - area_statistic, digits=0))` ha (`r round(100 - (area_polygon / area_statistic *100), digits=2)`%)
-
-### Urban district area 1920
-
-```{r, echo = FALSE}
-# Data retrieved the the SHP file "Urban district boundaries 1920"
-area_polygon_district <- data.frame(UDB_1920$UDN, as.numeric(st_area(UDB_1920))*10^-4, stringsAsFactors = F) # in ha
-colnames(area_polygon_district) <- c("UD.1920", "Area")
-
-area_polygon_district <- area_polygon_district[order(area_polygon_district$UD.1920),]
-
-# Data from statistical yearbook
-area_statistic_district <- data.frame(UD_AREA_1920_statistic, stringsAsFactors = F) # in ha
-colnames(area_statistic_district) <- c("UD.1920", "Area")
-
-
-# combine data
-
-data_area_poly <- data.frame(c(1:21), rep("UDB_1920", times =21), area_polygon_district$Area)
-data_area_stat <- data.frame(c(1:21), rep("SY_1929", times =21), area_statistic_district$Area)
-
-col <- c("UD.1920", "Data_source", "Area")
-
-colnames(data_area_poly) <- col
-colnames(data_area_stat) <- col
-
-data <- rbind(data_area_poly, data_area_stat)
-data$Data_source <- as.character(data$Data_source)
-data$Area.label <- round(data$Area, digits = 0)
-
-plaus_dist_area_plot <- ggplot(data, aes(fill=Data_source, y=Area, x=UD.1920)) + 
-    geom_bar(stat="identity", position=position_dodge())+
-    ggtitle("Contrasting urban district areas 1920") +
-    ylab("Area [hectares]") +
-    scale_x_continuous("Urban district 1920", labels = c(1:21), breaks = c(1:21))+
-    geom_text(aes(label=Area.label), hjust=-0.3, vjust= 0.25, position = position_dodge(1), size=3, angle=90)+
-    theme(legend.position = c(0.01,0.99), legend.justification = c("left", "top"), legend.title=element_text(size=10))+
-    theme(legend.text = element_text(size = 8))+
-    theme(legend.key.size = unit(1,"line"))+
-    ylim(c(0,12000)) +
-    labs(fill = "Data source")
-plaus_dist_area_plot
-
-diff <- data.frame(c(1:21), data[which(data$Data_source == "UDB_1920"), "Area"], data[which(data$Data_source == "SY_1929"), "Area"], data[which(data$Data_source == "UDB_1920"), "Area"] - data[which(data$Data_source == "SY_1929"), "Area"])
-
-colnames(diff) <- c("UD.1920", "UDB_1920", "SY_1919", "area_diff_abs")
-diff$area_diff_rel <- diff$area_diff_abs / data[which(data$Data_source == "UDB_1920"), "Area"]*100
-
-```
-
-
-Absolute differences between UDB_1920 and SY_1929. `r diff %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
-
-### Building counts by urban district
+# Building counts by urban district
 
 
 ```{r, echo = FALSE}
@@ -1092,7 +1001,7 @@ data_map_stat <- data.map %>%
   summarise(sum_count = sum(counts))
 ```
 
-### Building footprint presence in 1920
+# Building footprint presence in 1920
 
 ```{r, echo = FALSE}
 
@@ -1186,7 +1095,7 @@ presence_b_1925 <- sum(location_overview_analysis[which(location_overview_analys
 
 * City-wide data: `r location_overview_analysis_summary %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
-### Construction years
+# Construction years
 ```{r, echo = FALSE}
 
 
@@ -1324,7 +1233,7 @@ Ratio_CD.bs_data_plot
 
 
 
-### Construction periods
+# Construction periods
 
 
 ```{r, echo = FALSE}
@@ -1584,9 +1493,6 @@ data_summary <- data %>%
 * Summary: This table is based on data entries that have "PoC" and "CD.bs" records. In other words, blank "CD.bs" records are excluded. The building footprint area is  `r round(sum(CD.bs_fit_data_red_summary$sum_area), digits=0)` ha, which is `r round(sum(CD.bs_fit_data_red_summary$sum_area)/sum(wien1920$Area.ha)*100, digits=0)`% of the total area. `r CD.bs_fit_data_red_summary %>% kbl(digits = 0, format.args = list(big.mark = ',')) %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "left")`
 
 
-# Competing interests {-}
-The authors declare no competing interests.
-
 # Annnex {-}
 ## Write CSV file {-}
 
@@ -1607,104 +1513,60 @@ The figures are published in the corresponding paper.
 
 
 # Plot figure 01
-columns <- 1
-rows <- 2
+#columns <- 1
+#rows <- 2
 
-ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = columns * 9 , height = rows*5)
-ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = columns * 9 , height = rows*5)
-
-
-# Plot Figure 06
-
-columns = 1
-rows = 2
-
-figure_out_6 <- ggarrange(area_district_adapt_plot, bp_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-
-ggsave(paste(dir_output, "Figure 06.png", sep = ""), plot = figure_out_6, width = 9 , height = 8)
-
-ggsave(paste(dir_output, "Figure 06.pdf", sep = ""), plot = figure_out_6, width = 9 , height = 10)
+#ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = 9 , height = 10)
+#ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = 9 , height = 10)
 
 
-
-
-# Plot Figure 07
-
-columns = 1
-rows = 2
-
-figure_out_7 <- ggarrange(plaus_dist_area_plot, building_counts, align = "v", ncol = columns, nrow = rows, labels = "auto")
-
-ggsave(paste(dir_output, "Figure 07.png", sep = ""), plot = figure_out_7, width = 9 , height = 8)
-
-ggsave(paste(dir_output, "Figure 07.pdf", sep = ""), plot = figure_out_7, width = 9 , height = 8)
-
-
-
-# Plot figure 08
-columns = 1
-rows = 3
-
-figure_out_8 <- ggarrange(location_confirm_plot, temp_presence_district_plot, location_overview_analysis_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-ggsave(paste(dir_output, "Figure 08.png", sep = ""), plot = figure_out_8, width = columns * 9 , height = rows*4)
-ggsave(paste(dir_output, "Figure 08.pdf", sep = ""), plot = figure_out_8, width = columns * 9 , height = rows*4)
-
-
-# Plot Figure 09
-
+# Plot Figure 04
 
 columns = 1
 rows = 4
 
-figure_09 <- ggarrange(BSM_1920_bc_final_plot, Ratio_CD.bs_data_plot, CD.bs_fit_source_plot, CD.bs_fit_data_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
+figure_out_4 <- ggarrange(area_district_adapt_plot, poly_source_plot, area_ud2020_editor_plot, temp_presence_district_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
 
-ggsave(paste(dir_output, "Figure 09.png", sep = ""), plot = figure_09, width = columns *9 , height = rows* 4)
-ggsave(paste(dir_output, "Figure 09.pdf", sep = ""), plot = figure_09, width = columns * 9 , height = rows* 4)
+ggsave(paste(dir_output, "Figure 04.png", sep = ""), plot = figure_out_4, width = 9 , height = 16)
 
-
-
+ggsave(paste(dir_output, "Figure 04.pdf", sep = ""), plot = figure_out_4, width = 9 , height = 20)
 
 
 
 
+# Plot Figure 05
+
+columns = 1
+rows = 4
+
+figure_out_5 <- ggarrange(bp_plot, PoC_data_plot, data_location.city_limits_plot, data_location.amap_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
+
+ggsave(paste(dir_output, "Figure 05.png", sep = ""), plot = figure_out_5, width = 9 , height = 16)
+
+ggsave(paste(dir_output, "Figure 05.pdf", sep = ""), plot = figure_out_5, width = 9 , height = 20)
 
 
-# 
-# 
-# 
-# # Plot figure 06
-# columns = 1
-# rows = 4
-#   
-# figure_out_1 <- ggarrange(area_district_adapt_plot, poly_source_plot, area_ud2020_editor_plot, temp_presence_district_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-# ggsave(paste(dir_output, "Figure 06.png", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
-# ggsave(paste(dir_output, "Figure 06.pdf", sep = ""), plot = figure_out_1, width = columns * 9 , height = rows*4)
-# 
-# 
-# # Plot figure 07
-# columns = 1
-# rows = 4
-#   
-# figure_out_2 <- ggarrange(bp_plot, PoC_data_plot, data_location.city_limits_plot, data_location.amap_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-# ggsave(paste(dir_output, "Figure 07.png", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
-# ggsave(paste(dir_output, "Figure 07.pdf", sep = ""), plot = figure_out_2, width = columns * 9 , height = rows*4)
-# 
-# 
-# 
-# 
-# # Plot Figure 11
-# #ggsave(paste(dir_output, "Figure 11.png", sep = ""), plot = p, width = 9 , height = 5)
-# #ggsave(paste(dir_output, "Figure 11.pdf", sep = ""), plot = p, width = 9 , height = 5)
-# 
-# # Plot Figure 09
-# columns = 1
-# rows = 2
-#   
-# figure_loc <- ggarrange(location_confirm_plot, location_overview_analysis_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
-# ggsave(paste(dir_output, "Figure 09.png", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
-# 
-# ggsave(paste(dir_output, "Figure 09.pdf", sep = ""), plot = figure_loc, width = columns * 9 , height = rows*4)
-# 
-# 
+# Plot Figure 11
+ggsave(paste(dir_output, "Figure 11.png", sep = ""), plot = building_counts, width = 9 , height = 5)
+ggsave(paste(dir_output, "Figure 11.pdf", sep = ""), plot = building_counts, width = 9 , height = 5)
+
+
+# Plot figure 12
+columns = 1
+rows = 2
+
+figure_out_12 <- ggarrange(location_confirm_plot, location_overview_analysis_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
+ggsave(paste(dir_output, "Figure 12.png", sep = ""), plot = figure_out_12, width = columns * 9 , height = rows*4)
+ggsave(paste(dir_output, "Figure 12.pdf", sep = ""), plot = figure_out_12, width = columns * 9 , height = rows*4)
+
+
+# Plot Figure 13
+columns = 1
+rows = 4
+
+figure_13 <- ggarrange(BSM_1920_bc_final_plot, Ratio_CD.bs_data_plot, CD.bs_fit_source_plot, CD.bs_fit_data_plot, align = "v", ncol = columns, nrow = rows, labels = "auto")
+
+ggsave(paste(dir_output, "Figure 13.png", sep = ""), plot = figure_13, width = columns *9 , height = rows* 4)
+ggsave(paste(dir_output, "Figure 13.pdf", sep = ""), plot = figure_13, width = columns * 9 , height = rows* 4)
 
 ```
