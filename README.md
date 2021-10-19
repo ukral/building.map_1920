@@ -1,7 +1,5 @@
 # "building.map_1920"
 
-**Release notes:** This repository is currently under double-blind peer-review. Once the corresponding manuscript becomes accepted for publishing, we add the author names and affiliation to this dataset, the grant information as well as the link to the corresponding article. We encourage users to wait until the review process has been completed.
-
 **This GitHub repository refers** to the datasets in the Zenodo repositories, [Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200) and [Administrative boundaries, Vienna, various timestamps](https://doi.org/10.5281/zenodo.4323010).
 
 **This GitHub repository provides** supplementary material as followed.
