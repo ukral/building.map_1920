@@ -312,7 +312,7 @@ text(1921, uk+ab + 5, "this\nstudy", col = "black", pos = 4, cex=0.8, font = fn)
 
 # Building age data
 text(1700, uk+ab+ab+hoehe+5, "Building age data", col="black", pos = 4, font = fn)
-text(1700, uk+ab+ab + 8, "(see Online-only Table 1)", cex= 0.8, col = "black", pos = 4, font = fn)
+#text(1700, uk+ab+ab + 8, "(see Online-only Table 1)", cex= 0.8, col = "black", pos = 4, font = fn)
 
 rect(1904, uk+ab+ab, 1905, uk+ab+ab+hoehe, col = mycol, border = mycol)
 
@@ -1516,8 +1516,8 @@ The figures are published in the corresponding paper.
 #columns <- 1
 #rows <- 2
 
-#ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = 9 , height = 10)
-#ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = 9 , height = 10)
+ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = 9 , height = 10)
+ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = 9 , height = 10)
 
 
 # Plot Figure 04
