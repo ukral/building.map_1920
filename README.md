@@ -1,6 +1,6 @@
 # "building.map_1920"
 
-**This GitHub repository refers** to the datasets in the Zenodo repositories, [Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200) and [City boundary and urban district boundaries, Vienna, 1920](https://doi.org/10.5281/zenodo.4323010).
+**This GitHub repository refers** to the datasets in the Zenodo repositories, [Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200) and [City boundary and urban district boundaries, Vienna, 1920](https://doi.org/10.5281/zenodo.4323010) and therefore supplements the article "Data description of '“'Building age map of Vienna and its surroundings around 1920'" in [Data in Brief](https://www.journals.elsevier.com/data-in-brief). It is noted that the article is currently under review.
 
 **This GitHub repository provides** supplementary material as followed.
 
