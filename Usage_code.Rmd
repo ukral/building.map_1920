@@ -1516,8 +1516,8 @@ The figures are published in the corresponding paper.
 #columns <- 1
 #rows <- 2
 
-ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = 9 , height = 10)
-ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = 9 , height = 10)
+#ggsave(paste(dir_output, "Figure 01.png", sep = ""), plot = Figure_1(), width = 9 , height = 10)
+#ggsave(paste(dir_output, "Figure 01.pdf", sep = ""), plot = Figure_1(), width = 9 , height = 10)
 
 
 # Plot Figure 04

@@ -1,20 +1,18 @@
 ---
-title: "Codebook 'Building age map, Vienna, around 1920'"
-keywords: "Vienna, building stock, age, building periods, 1920"
+title: |
+  <center> Codebook for data repository  </center>
+  <center> Building age map, Vienna, around 1920 </center>
+
 output:
-   bookdown::html_document2:
-      toc: true
-      toc_depth: 2
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: '2'
+
+author: "Ulrich Kral, Ferdinand Reimer"
+urlcolor: blue
 
 ---
-<style type="text/css">
-div#TOC li {
-    list-style:none;
-    background-image:none;
-    background-repeat:none;
-    background-position:0; 
-}
-</style>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -88,7 +86,7 @@ The spatial coverage is the city of Vienna, which is the capital of Austria (Lat
 
 ```{r, scope, fig.cap = "City of Vienna", echo=FALSE}
 
-tm_shape(CB_2020) + tm_polygons("red", alpha = 0.3)
+# tm_shape(CB_2020) + tm_polygons("red", alpha = 0.3)
 
 
 ```
@@ -171,7 +169,6 @@ include_graphics(paste(dir_github, "Figures/Codebook_figure_FF.png", sep = ""))
 
 
 * "FW" stands for "Feuerwehrplan" (in German). It is an historical fire brigade map sheet, which we used to vectorize building footprints. The cadastral maps sheets are available in TIFF format and can be retrieved from [Federal Office of Metrology and Surveying (BEV)](https://www.bev.gv.at).
-
 * "MA" stands for "Magistratratsabteilung" (in German). It is the city authority - department 41, who provided the polygon-features. The polygon-features can be retrieved from [Open Data Österreich](https://www.data.gv.at/katalog/dataset/7cf0da04-1f77-4321-929e-78172c74aa0b).
 * "BE" stands for "Bezirksplan" (in German). It covers historical urban district maps. The urban district maps  are available in TIFF format and can be retrieved from [Municipal and Provincial Archives of Vienna ](https://www.wien.gv.at/kultur/archiv).
 * "BA" stands for "Baualterskarte" (in German). It is the [analog building age map 1920](https://www.geschichtewiki.wien.gv.at/Baualter_1920). It covers historical urban district maps. The urban district maps  are available in TIFF format and can be retrieved from [Municipal and Provincial Archives of Vienna ](https://www.wien.gv.at/kultur/archiv).
@@ -180,7 +177,7 @@ include_graphics(paste(dir_github, "Figures/Codebook_figure_FF.png", sep = ""))
 This field groups the "Polygon.source_id" records by the type of the cartographic document into: `r unique(dataset_final$Polygon.source_name)`.
 
 ###	Editor
-The field covers name of the person who digitized the builing footprints from analog maps or the institution that provided the polygon-features. 
+The field covers name of the person who digitized the building footprints from analog maps or the institution that provided the polygon-features. 
 
 The field covers the following unique records: `r unique(dataset_final$Editor)`. 
 
@@ -246,7 +243,7 @@ Addresses under review (see “Address_reviewed”) were revised based on the ad
 The field covers `r length(unique(dataset_final$Address_revised))` unique records.
 
 ### Location.usm
-The analog urban sprawl map [Die räumliche Ausdehnung Wien von 1857 bis 1957](https://catalogplus.tuwien.at/permalink/f/8j3js/UTW_alma2158906410003336) documents the built-up area in 1918. This field specifies if the polygon-feature is located within the built-up area 1918. The field covers the following unique records: `r unique(dataset_final$Location.usm)`.
+The analog urban sprawl map [Die räumliche Ausdehnung Wien von 1857 bis 1957](https://doi.org/10.5281/zenodo.5594097) documents the built-up area in 1918. This field specifies if the polygon-feature is located within the built-up area 1918. The field covers the following unique records: `r unique(dataset_final$Location.usm)`.
 
 ### Location.lsm
 The land use map documents the built up area 1912. The map is available in SHP format and can be retrieved from [S. Hohensinner](https://orcid.org/0000-0002-3517-0259) based on personal request. This field specifies if the polygon-feature is located within the built-up area 1918. The field covers the following unique records: `r unique(dataset_final$Location.lum)`.
