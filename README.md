@@ -4,7 +4,7 @@
 
 **This GitHub repository provides** supplementary material as followed.
 
-1. **Codebook**. The Codebook specifies the data format, the data fields and comments on the data fields of the datasets BSM_1920.shp and the attribute table BSM_1920_attribute_table.csv, CB_1920.shp and UDB_1920.shp. The Codebook also includes an interactive map with the location and geographical scope of the study area. The Codebook is available in a [PDF version](https://github.com/ukral/building.map_1920/blob/main/Codebook.pdf) for end-users as well as [R Markdown file](Codebook.Rmd) for those who want to use and re-use the Codebook.
+1. **Codebook**. The Codebook specifies the data format, the data fields and comments on the data fields of the datasets BSM_1920.shp and the attribute table BSM_1920_attribute_table.csv. The Codebook is available in a [PDF version](https://github.com/ukral/building.map_1920/blob/main/Codebook.pdf) for end-users as well as [R Markdown file](Codebook.Rmd) for those who want to use and re-use the Codebook.
 
 2. **Usage code**. The [R Markdown file](Usage_code.Rmd) allows the following to be reproduced.
 
