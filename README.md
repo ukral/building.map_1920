@@ -28,3 +28,7 @@ The usage code also available in a [readable online version](https://rpubs.com/u
 7. Specify the path name of your local directory in the chunk "specify_inputs" of the R Markdown files "Codebook.Rmd" and "Usage_code.Rmd".
 8. Execute the R Markdown files in R-Studio.
 9. The R Markdown files can be fed to [bookdown](https://bookdown.org/) to generate a readable HTML file.
+
+**Acknowledgements**
+
+This research received funding from the Austrian Science Fund (FWF): I 3148-G29 and the Austrian Research Promotion Agency (FFG): 876258.
