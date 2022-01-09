@@ -1,10 +1,8 @@
 # "building.map_1920"
 
-**This GitHub repository refers** to the datasets in the Zenodo repositories, [Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200) and [City boundary and urban district boundaries, Vienna, 1920](https://doi.org/10.5281/zenodo.4323010).
+**This GitHub repository refers** to the dataset in the Zenodo repository [Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200).
 
 **This GitHub repository provides** supplementary material as followed.
-
-test
 
 1. **Codebook**. The Codebook specifies the data format, the data fields and comments on the data fields of the datasets BSM_1920.shp and the attribute table BSM_1920_attribute_table.csv. The Codebook is available in a [PDF version](https://github.com/ukral/building.map_1920/blob/main/Codebook.pdf) for end-users as well as [R Markdown file](Codebook.Rmd) for those who want to use and re-use the Codebook.
 
