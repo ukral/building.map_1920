@@ -22,8 +22,6 @@ div#TOC li {
 
 * **is part** of the GitHub repository [building.map_1920](https://github.com/ukral/building.map_1920). Check out the [readme file](https://github.com/ukral/building.map_1920/blob/main/README.md) to learn more about the corresponding datasets and how to use and re-use the underlying R Markdown file.
 
-* **supplements** the paper "Data description of 'Building age map of Vienna and its surroundings around 1920'”, which is currently under review in [Data in Brief](https://www.journals.elsevier.com/data-in-brief).
-
 * **is for users** of the datasets who want to use and re-use the datasets.
 
 
