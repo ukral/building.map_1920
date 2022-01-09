@@ -1,5 +1,7 @@
 # "building.map_1920"
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5832032.svg)](https://doi.org/10.5281/zenodo.5832032)
+
 **This GitHub repository refers** to the dataset in the Zenodo repository [Building age map, Vienna, around 1920](https://www.doi.org/10.5281/zenodo.3715200).
 
 **This GitHub repository provides** supplementary material as followed.
